@@ -1,0 +1,22 @@
+@import "theme.scss";
+@include mat-core();
+@include angular-material-theme($my-theme);
+
+body {
+  margin: 0;
+}
+
+.global-block{
+  background-color:#F5F5F5;
+}
+
+#block_spinner {
+  width: 100%;
+  text-align: center;
+}
+
+.progressbar {
+  text-align: center;
+  margin-left: 50%;
+  margin-top: 3%;
+}

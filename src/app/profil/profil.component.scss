@@ -1,0 +1,28 @@
+.block-toolbar {
+  position: fixed;
+  top:0%;
+  left:0%;
+  right:0%;
+  z-index: 100;
+}
+
+.example-card {
+  max-width: 800px;
+  margin-top: 5px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.vertical_middle_align {
+  vertical-align: middle;
+}
+
+.horizontal-align_right {
+  float: right;
+}

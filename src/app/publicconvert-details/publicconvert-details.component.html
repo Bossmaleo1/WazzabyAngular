@@ -1,0 +1,176 @@
+<mat-toolbar color="primary" class="block-toolbar">
+
+  <button mat-icon-button  (click)="OnBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span>{{name}}</span>
+  <span class="example-spacer"></span>
+
+
+
+</mat-toolbar>
+
+
+<br/><br/>
+<section class="section">
+
+  <div class="container"
+       fxLayout
+       fxLayout.xs="column"
+       fxLayoutAlign="center"
+       fxLayoutGap="10px"
+       fxLayoutGap.xs="0">
+    <div class="item item-1" fxFlex="20%"></div>
+    <div class="item item-2" fxFlex="20%" fxFlexOrder="3">
+    </div>
+    <div class="item item-3" fxFlex="60%">
+
+
+      <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url('+user_photo+')'}" ></div>
+          <mat-card-title>{{name}}</mat-card-title>
+          <mat-card-subtitle>{{updated}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image  src="{{status_photo}}" alt="Photo of a Shiba Inu" [ngStyle]="{'display':''+etat_photo_status+''}">
+        <mat-card-content>
+          <p>{{status_text_content}}</p>
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+        <mat-card-actions>
+
+          <div class="container"
+               fxLayout
+               fxLayout.xs="column"
+               fxLayoutAlign="center"
+               fxLayoutGap="10px"
+               fxLayoutGap.xs="0">
+
+            <div class="item item-1" fxFlex="10%">
+              <button mat-button (click)="Onjaime()" matTooltip="J'aime ce contenu">
+                <mat-icon [ngStyle]="{color:getColor(booljaime)}">thumb_up</mat-icon>
+                <span [ngStyle]="{color:getColor(booljaime)}"> {{jaime}} </span>
+              </button>
+            </div>
+            <div class="item item-2" fxFlex="10%">
+              <button mat-button (click)="Onjaimepas()" matTooltip="Je n'aime pas ce contenu">
+                <mat-icon [ngStyle]="{color:getColor(booljaimepas)}">thumb_down</mat-icon>
+                <span [ngStyle]="{color:getColor(booljaimepas)}"> {{jaimepas}} </span>
+              </button>
+            </div>
+            <div class="item item-3" fxFlex="80%">
+
+            </div>
+          </div>
+
+        </mat-card-actions>
+        <mat-divider></mat-divider>
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Votre commentaire" type="text" [(ngModel)]="libelle_comment"  autocomplete="off" />
+          <button mat-icon-button matSuffix (click)="onSendComment()">
+            <mat-icon>send</mat-icon>
+          </button>
+        </mat-form-field>
+
+
+
+      </mat-card>
+      <div *ngIf="this.display_progressbar">
+        <app-comments *ngFor="let comment of comments; let i = index"
+                      [indexOfConvert]="i"
+                      [name]="comment.name"
+                      [updated]="comment.updated"
+                      [user_photo]="comment.user_photo"
+                      [status_text_content]="comment.status_text_content"
+                      [id]="comments.id"
+        ></app-comments>
+      </div>
+
+      <div class="timeline-wrapper" *ngIf="!this.display_progressbar">
+        <br/>
+        <div class="timeline-item">
+          <div class="animated-background">
+            <div class="background-masker header-top"></div>
+            <div class="background-masker header-left"></div>
+            <div class="background-masker header-right"></div>
+            <div class="background-masker header-bottom"></div>
+            <div class="background-masker subheader-left"></div>
+            <div class="background-masker subheader-right"></div>
+            <div class="background-masker subheader-bottom"></div>
+            <div class="background-masker content-top"></div>
+            <div class="background-masker content-first-end"></div>
+            <div class="background-masker content-second-line"></div>
+            <div class="background-masker content-second-end"></div>
+            <div class="background-masker content-third-line"></div>
+            <div class="background-masker content-third-end"></div>
+          </div>
+
+          <div class="animated-background2">
+            <div class="background-masker header-top"></div>
+            <div class="background-masker header-left"></div>
+            <div class="background-masker header-right"></div>
+            <div class="background-masker header-bottom"></div>
+            <div class="background-masker subheader-left"></div>
+            <div class="background-masker subheader-right"></div>
+            <div class="background-masker subheader-bottom"></div>
+            <div class="background-masker content-top"></div>
+            <div class="background-masker content-first-end"></div>
+            <div class="background-masker content-second-line"></div>
+            <div class="background-masker content-second-end"></div>
+            <div class="background-masker content-third-line"></div>
+            <div class="background-masker content-third-end"></div>
+          </div>
+          <br/>
+          <div class="animated-background1">
+            <div class="background-masker header-top"></div>
+            <div class="background-masker header-left"></div>
+            <div class="background-masker header-right"></div>
+            <div class="background-masker header-bottom"></div>
+            <div class="background-masker subheader-left"></div>
+            <div class="background-masker subheader-right"></div>
+            <div class="background-masker subheader-bottom"></div>
+            <div class="background-masker content-top"></div>
+            <div class="background-masker content-first-end"></div>
+            <div class="background-masker content-second-line"></div>
+            <div class="background-masker content-second-end"></div>
+            <div class="background-masker content-third-line"></div>
+            <div class="background-masker content-third-end"></div>
+          </div>
+          <br/>
+          <div class="animated-background2">
+            <div class="background-masker header-top"></div>
+            <div class="background-masker header-left"></div>
+            <div class="background-masker header-right"></div>
+            <div class="background-masker header-bottom"></div>
+            <div class="background-masker subheader-left"></div>
+            <div class="background-masker subheader-right"></div>
+            <div class="background-masker subheader-bottom"></div>
+            <div class="background-masker content-top"></div>
+            <div class="background-masker content-first-end"></div>
+            <div class="background-masker content-second-line"></div>
+            <div class="background-masker content-second-end"></div>
+            <div class="background-masker content-third-line"></div>
+            <div class="background-masker content-third-end"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-message" *ngIf="display_error_message">
+        <br/>
+        <mat-card class="card-error-message">
+          <mat-card-content>
+            <p><mat-icon class="block-error-message">block</mat-icon><span class="block-error-message"> {{this.error_message}}</span></p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </div>
+  </div>
+
+
+
+</section>
+<br/><br/><br/>

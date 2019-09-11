@@ -1,0 +1,79 @@
+<div id='block_progressbar'><mat-spinner [ngStyle]="{'display':''+disparaitreprogressbar+''}"  class="progressbar"></mat-spinner></div>
+
+<mat-toolbar color="primary" class="block-toolbar" [ngStyle]="{'display':''+disparaitreallblock+''}">
+
+
+  <button mat-icon-button  (click)="OnBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+
+  <span>Inscription</span>
+
+</mat-toolbar>
+
+<br/><br/><br/><br/>
+<div class="block-globale">
+  <div class="block" [ngStyle]="{'display':''+disparaitreallblock+''}">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+
+        <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmitfirstForm(stepper)">
+          <ng-template matStepLabel>Verification Adresse mail</ng-template>
+          <p *ngIf="afficher_code" class="error-color">Veuillez inserer le code recu par mail dans le champ code validation</p>
+          <mat-form-field class="example-full-width" *ngIf="!afficher_code">
+            <input matInput placeholder="Email" autocomplete="off" formControlName="email"  required/>
+          </mat-form-field> <br/>
+          <mat-form-field class="example-full-width" *ngIf="afficher_code">
+            <input matInput placeholder="Code de validation" autocomplete="off" formControlName="codevalidation" >
+          </mat-form-field> <br *ngIf="afficher_code" />
+          <button mat-raised-button type='submit' color="primary" class="example-full-width" >SUIVANT</button>
+
+        </form>
+
+      </mat-step>
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup" (ngSubmit)="onSubmitSecondForm(stepper)">
+          <ng-template matStepLabel>Nom, Prenom et date de Naissance</ng-template>
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Nom" autocomplete="off" formControlName="Nom" required>
+          </mat-form-field> <br/>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Prenom" autocomplete="off" formControlName="Prenom" required>
+          </mat-form-field> <br/>
+          <mat-form-field class="example-full-width">
+            <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Date de naissance" name="date"  class="form-control" autocomplete="off" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field><br/>
+          <button mat-raised-button type='submit' color="primary" class="example-full-width" >SUIVANT</button>
+
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Finale</ng-template>
+        <form [formGroup]="thirdFormGroup" (ngSubmit)="onSubmitthirdForm(stepper)">
+          <div id="block-radio">
+            <mat-radio-group formControlName="sexe" required>
+              <mat-radio-button value="H">Homme </mat-radio-button>
+              <span class="example-spacer"></span>
+              <mat-radio-button value="F" >Femme</mat-radio-button>
+            </mat-radio-group>
+          </div><br/>
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Mot de Passe" autocomplete="off" [type]="hide1 ? 'password' : 'text'" formControlName="password1" required/>
+            <mat-icon matSuffix (click)="hide1 = !hide1">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </mat-form-field> <br/>
+
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Mot de Passe (Confirmation)" autocomplete="off" [type]="hide2 ? 'password' : 'text'" formControlName="password2" required/>
+            <mat-icon matSuffix (click)="hide2 = !hide2">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </mat-form-field> <br/>
+
+          <button mat-raised-button type='submit' color="primary" class="example-full-width" >TERMINER</button>
+        </form>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</div>

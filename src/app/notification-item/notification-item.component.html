@@ -1,0 +1,10 @@
+<div class="notification_item" (click)="RootTo()" >
+  <mat-card class="example-card" >
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url('+photo+')'}" ></div>
+      <mat-card-subtitle>{{prenom}} {{nom}}</mat-card-subtitle>
+      <mat-card-subtitle>{{updated}}</mat-card-subtitle>
+      <mat-card-subtitle>{{libelle}}</mat-card-subtitle>
+      <div><mat-icon matTooltip="mention lu">{{hide_done_icon ? 'done_all' : 'done'}}</mat-icon></div>
+    </mat-card-header>
+  </mat-card></div><br/>

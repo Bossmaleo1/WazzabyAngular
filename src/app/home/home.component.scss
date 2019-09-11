@@ -1,0 +1,204 @@
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.block-toolbar1 {
+  position: fixed;
+  top:0%;
+  left:0%;
+  right:0%;
+  height:10%;
+}
+
+.block-toolbar2 {
+  position: fixed;
+  top:10%;
+  left:0%;
+  right:0%;
+  height:5%;
+}
+
+.block-tabs {
+  position: fixed;
+  z-index: -5;
+  top:15%;
+  left:0%;
+  right:0%;
+  height: 85%;
+}
+
+#icon {
+  width:50px;
+  height:50px;
+  border-radius:25px;
+}
+
+.icon-block {
+  width:50px;
+  height:50px;
+  border-radius:25px;
+}
+
+
+.example-card {
+  max-width: 500px;
+  margin: auto;
+}
+
+
+.example-header-image {
+  background-size: cover;
+}
+
+.block-content-1
+{
+  margin-top: 1%;
+  width: 100%;
+}
+
+.block-message-1 {
+  width: 20%;
+  height: 80%;
+  float:left;
+}
+
+.block-message-2 {
+  width: 60%;
+  float: left;
+}
+
+.block-message-3 {
+  width: 19%;
+  float:left;
+}
+
+.title-size {
+  font-size:10px;
+}
+
+.card-block-column-2 {
+  width:100%;
+}
+
+.dialgo-block {
+  display : none;
+  position: absolute;
+  top: 0; left: 0;
+  bottom:0; right:0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.dialog-sub-block {
+  background: white;
+  max-width: 700px;
+  height: 300px;
+  margin-left: 30%;
+  margin-top: 10%;
+}
+
+
+.example-full-width {
+  width: 100%;
+}
+
+.close-user-button {
+  position: absolute;
+  right:0;
+}
+
+#borderimage {
+  max-width: 50px;
+  max-height: 50px;
+}
+
+#icon-color {
+  color:#757575;
+}
+
+.fab {
+  position: fixed;
+  z-index: 99;
+  bottom:6%;
+  right:3%;
+}
+
+//shimmer placeholder animation
+.timeline-item {
+  background: #fff;
+  border: 1px solid;
+  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+  border-radius: 3px;
+  padding: 12px;
+  margin: 0 auto;
+  max-width: 500px;
+  min-height: 200px;
+}
+
+@keyframes placeHolderShimmer{
+  0%{
+    background-position: -468px 0
+  }
+
+  100%{
+    background-position: 468px 0
+  }
+}
+
+.animated-background {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+  width:50px;
+  height: 50px;
+  border-radius:25px;
+  position: relative;
+}
+
+.animated-background1 {
+  position: relative;
+  display:inline-block;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-size: 800px 104px;
+  height: 10px;
+  width:495px;
+  float: right;
+}
+
+.empty-message {
+  text-align: center;
+  cursor: pointer;
+}
+
+.background-message-public-form-block {
+  background-color: rgba(68,138,255,0.1);
+}
+
+.background-message-public-form-input {
+  background-color: rgba(68,138,255,0.3);
+}
+
+.card-error-message {
+  max-width: 500px;
+  margin: auto;
+}
+
+.block-error-message {
+  vertical-align: middle;
+  color:red;
+}

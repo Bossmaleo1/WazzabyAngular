@@ -1,0 +1,68 @@
+<mat-card class="example-card" *ngIf="visibility">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url('+photo+')'}" ></div>
+    <mat-card-title>{{name}}</mat-card-title>
+    <mat-card-subtitle>{{updated}}</mat-card-subtitle>
+  </mat-card-header>
+  <img mat-card-image  src="{{status_photo}}" alt="Photo of message public" [ngStyle]="{'display':''+etat_photo_status+''}">
+  <mat-card-content>
+    <p>{{status_text_content}}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <mat-divider></mat-divider>
+    <div class="container"
+         fxLayout
+         fxLayout.xs="column"
+         fxLayoutAlign="center"
+         fxLayoutGap="10px"
+         fxLayoutGap.xs="0">
+
+      <div class="item item-1" fxFlex="40%">
+        <button mat-button (click)="OnLaunchIntervention()" matTooltip="Cliquez ici pour commenter">
+          <mat-icon id="icon-color">add_comment</mat-icon>
+          <span> {{countcomment}} Intervention</span>
+        </button>
+      </div>
+      <div class="item item-2" fxFlex="20%">
+        <button mat-button (click)="Onjaime()" matTooltip="J'aime ce contenu">
+          <mat-icon [ngStyle]="{color:getColor(booljaime)}">thumb_up</mat-icon>
+          <span [ngStyle]="{color:getColor(booljaime)}"> {{jaime}} </span>
+        </button>
+      </div>
+      <div class="item item-3" fxFlex="20%">
+        <button mat-button (click)="Onjaimepas()" matTooltip="Je n'aime pas ce contenu">
+          <mat-icon [ngStyle]="{color:getColor(booljaimepas)}">thumb_down</mat-icon>
+          <span [ngStyle]="{color:getColor(booljaimepas)}"> {{jaimepas}} </span>
+        </button>
+      </div>
+      <div class="item item-4" fxFlex="20%">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon id="icon-color">arrow_drop_down_circle</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+
+          <button mat-menu-item *ngIf="test_user_root" (click)="displayupdateDialog()" disabled [ngStyle]="{'color':'#E0E0E0'}">
+            <mat-icon [ngStyle]="{'color':'#E0E0E0'}">edit</mat-icon>
+            <span>Modifier ce poste</span>
+          </button>
+
+          <button mat-menu-item *ngIf="test_user_root" (click)="displaydeleteDialog()">
+            <mat-icon id="icon-color">delete</mat-icon>
+            <span>Supprimer ce poste</span>
+          </button>
+
+          <button mat-menu-item *ngIf="!test_user_root" disabled [ngStyle]="{'color':'#E0E0E0'}">
+            <mat-icon  [ngStyle]="{'color':'#E0E0E0'}">flag</mat-icon>
+            <span>Signaler un probleme</span>
+          </button>
+
+        </mat-menu>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+  </mat-card-actions>
+
+
+
+</mat-card><br *ngIf="visibility"/>

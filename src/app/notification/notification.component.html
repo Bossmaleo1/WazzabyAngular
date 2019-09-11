@@ -1,0 +1,123 @@
+<mat-toolbar color="primary" class="block-toolbar">
+
+  <button mat-icon-button  (click)="OnBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span>Notifications</span>
+
+</mat-toolbar>
+
+<br/><br/><br/><br/>
+<div class="container"
+     fxLayout
+     fxLayout.xs="column"
+     fxLayoutAlign="center"
+     fxLayoutGap="10px"
+     fxLayoutGap.xs="0">
+  <div class="item item-1" fxFlex="20%"></div>
+  <div class="item item-2" fxFlex="20%" fxFlexOrder="3"></div>
+  <div class="item item-3" fxFlex="60%">
+    <!--div class="error_message" *ngIf="display_error_message">{{error_message}}</div-->
+    <div class="error-message" *ngIf="display_error_message" (click)="Reactualise()">
+      <br/>
+      <mat-card class="card-error-message">
+        <mat-card-content>
+          <p><mat-icon class="block-error-message">block</mat-icon><span class="block-error-message"> {{this.error_message}}</span></p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <section *ngIf="!this.notificationService.progressbarnotification">
+      <app-notification-item  *ngFor="let notification of this.notificationService.notifications; let i = index"
+                              [index] = "i"
+                              [nom] = "notification.nom"
+                              [prenom] = "notification.prenom"
+                              [photo] = "notification.photo"
+                              [libelle] = "notification.libelle"
+                              [updated] = "notification.updated"
+                              [id_type] = "notification.id_type"
+                              [expediteur_id] = "notification.expediteur_id"
+                              [notification_id]= "notification.notification_id"
+                              [id_libelle] = "notification.id_libelle"
+                              [etat] = "notification.etat"
+                              [hide_done_icon]="true"
+      ></app-notification-item>
+    </section>
+    <div class="timeline-wrapper" *ngIf="this.notificationService.progressbarnotification">
+      <div class="timeline-item">
+        <div class="animated-background">
+          <div class="background-masker header-top"></div>
+          <div class="background-masker header-left"></div>
+          <div class="background-masker header-right"></div>
+          <div class="background-masker header-bottom"></div>
+          <div class="background-masker subheader-left"></div>
+          <div class="background-masker subheader-right"></div>
+          <div class="background-masker subheader-bottom"></div>
+          <div class="background-masker content-top"></div>
+          <div class="background-masker content-first-end"></div>
+          <div class="background-masker content-second-line"></div>
+          <div class="background-masker content-second-end"></div>
+          <div class="background-masker content-third-line"></div>
+          <div class="background-masker content-third-end"></div>
+        </div>
+
+        <br/>
+        <div class="animated-background1">
+          <div class="background-masker header-top"></div>
+          <div class="background-masker header-left"></div>
+          <div class="background-masker header-right"></div>
+          <div class="background-masker header-bottom"></div>
+          <div class="background-masker subheader-left"></div>
+          <div class="background-masker subheader-right"></div>
+          <div class="background-masker subheader-bottom"></div>
+          <div class="background-masker content-top"></div>
+          <div class="background-masker content-first-end"></div>
+          <div class="background-masker content-second-line"></div>
+          <div class="background-masker content-second-end"></div>
+          <div class="background-masker content-third-line"></div>
+          <div class="background-masker content-third-end"></div>
+        </div>
+
+      </div>
+    </div>
+    <br *ngIf="this.notificationService.progressbarnotification"/>
+    <div class="timeline-wrapper" *ngIf="this.notificationService.progressbarnotification">
+      <div class="timeline-item">
+        <div class="animated-background">
+          <div class="background-masker header-top"></div>
+          <div class="background-masker header-left"></div>
+          <div class="background-masker header-right"></div>
+          <div class="background-masker header-bottom"></div>
+          <div class="background-masker subheader-left"></div>
+          <div class="background-masker subheader-right"></div>
+          <div class="background-masker subheader-bottom"></div>
+          <div class="background-masker content-top"></div>
+          <div class="background-masker content-first-end"></div>
+          <div class="background-masker content-second-line"></div>
+          <div class="background-masker content-second-end"></div>
+          <div class="background-masker content-third-line"></div>
+          <div class="background-masker content-third-end"></div>
+        </div>
+
+        <br/>
+        <div class="animated-background1">
+          <div class="background-masker header-top"></div>
+          <div class="background-masker header-left"></div>
+          <div class="background-masker header-right"></div>
+          <div class="background-masker header-bottom"></div>
+          <div class="background-masker subheader-left"></div>
+          <div class="background-masker subheader-right"></div>
+          <div class="background-masker subheader-bottom"></div>
+          <div class="background-masker content-top"></div>
+          <div class="background-masker content-first-end"></div>
+          <div class="background-masker content-second-line"></div>
+          <div class="background-masker content-second-end"></div>
+          <div class="background-masker content-third-line"></div>
+          <div class="background-masker content-third-end"></div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>

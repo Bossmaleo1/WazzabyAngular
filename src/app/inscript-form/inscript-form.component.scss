@@ -1,0 +1,53 @@
+.block-toolbar {
+  position: fixed;
+  top:0%;
+  left:0%;
+  right:0%;
+  z-index: 100;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.block {
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+  padding: 2px;
+}
+
+.block-globale {
+  text-align: center;
+  max-width: 805px;
+  margin: auto;
+  background-color: white;
+}
+
+.example-card {
+  max-width: 400px;
+  margin: auto;
+}
+
+.example-full-width {
+  width: 90%;
+}
+
+#block-radio {
+  width: 100%;
+  text-align: left;
+  margin-left: 5%;
+}
+
+#femmeradio {
+  margin-left: 5%;
+}
+
+.error-color {
+  color:#FF4444;
+}
+
+#block_progressbar {
+  margin-top: 3%;
+}
+
