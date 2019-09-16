@@ -117,6 +117,8 @@ export class PublicconvertComponent implements OnInit {
       .concat('&etat=0')
       .concat('&id_recepteur=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur)
       .concat('&anonymous=').concat(anonymous);
+    const pushnotification_url = this.constance.dns1.concat('/Apifcm/apiFCMmessagerie.php?message=').concat(message).concat('&title=Wazzaby')
+      .concat('&regId=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].pushkey_recepteur);
     if (this.checkmention === 1 ) {
       const url = this.constance.dns.concat('/api/MentionsUpdate?id_etat=0')
         .concat('&id_mention=')
@@ -135,6 +137,7 @@ export class PublicconvertComponent implements OnInit {
       this.publicconvert.conversationsPublics[this.indexOfConvert].checkmention = 1;
       if (this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur != this.authService.getSessions().id) {
         this.recordNotification(url_notification);
+        this.recordNotification(pushnotification_url);
       }
     } else if (this.id_checkmention === 0 && this.checkmention === 0) {
       const url = this.constance.dns.concat('/api/Mentions?id_user=')
@@ -148,6 +151,7 @@ export class PublicconvertComponent implements OnInit {
       this.publicconvert.conversationsPublics[this.indexOfConvert].id_checkmention = this.temp_id_checkmention;
       if (this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur != this.authService.getSessions().id) {
         this.recordNotification(url_notification);
+        this.recordNotification(pushnotification_url);
       }
     } else if (this.checkmention === 2) {
       const url = this.constance.dns.concat('/api/MentionsUpdate?id_etat=1')
@@ -162,6 +166,7 @@ export class PublicconvertComponent implements OnInit {
       this.publicconvert.conversationsPublics[this.indexOfConvert].id_checkmention = this.temp_id_checkmention;
       if (this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur != this.authService.getSessions().id) {
         this.recordNotification(url_notification);
+        this.recordNotification(pushnotification_url);
       }
     }
   }
@@ -185,6 +190,9 @@ export class PublicconvertComponent implements OnInit {
       .concat('&etat=0')
       .concat('id_recepteur=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur)
       .concat('&anonymous=').concat(anonymous);
+
+    const pushnotification_url = this.constance.dns1.concat('/Apifcm/apiFCMmessagerie.php?message=').concat(message).concat('&title=Wazzaby')
+      .concat('&regId=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].pushkey_recepteur);
     if (this.checkmention === 2) {
       const url = this.constance.dns.concat('/api/MentionsUpdate?id_etat=0')
         .concat('&id_mention=').concat(String(this.publicconvert.conversationsPublics[this.indexOfConvert].id_checkmention));
@@ -202,6 +210,7 @@ export class PublicconvertComponent implements OnInit {
       this.publicconvert.conversationsPublics[this.indexOfConvert].checkmention = 2;
       if (this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur != this.authService.getSessions().id) {
         this.recordNotification(url_notification);
+        this.recordNotification(pushnotification_url);
       }
     } else if (this.id_checkmention === 0 && this.checkmention === 0) {
       const url = this.constance.dns.concat('/api/Mentions?id_user=')
@@ -214,6 +223,7 @@ export class PublicconvertComponent implements OnInit {
       this.publicconvert.conversationsPublics[this.indexOfConvert].checkmention = 2;
       this.publicconvert.conversationsPublics[this.indexOfConvert].id_checkmention = this.temp_id_checkmention;
       this.recordNotification(url_notification);
+      this.recordNotification(pushnotification_url);
     } else if (this.checkmention === 1) {
       const url = this.constance.dns.concat('/api/MentionsUpdate?id_etat=2')
         .concat('&id_mention=')
@@ -227,6 +237,7 @@ export class PublicconvertComponent implements OnInit {
       this.publicconvert.conversationsPublics[this.indexOfConvert].id_checkmention = this.temp_id_checkmention;
       if (this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur != this.authService.getSessions().id) {
         this.recordNotification(url_notification);
+        this.recordNotification(pushnotification_url);
       }
     }
   }

@@ -25,13 +25,14 @@
         <app-add-profil-picture>
         </app-add-profil-picture>
       </mat-card>
-
+      <br/>
       <mat-card class="example-card">
         <mat-icon color="primary" class="vertical_middle_align">account_circle</mat-icon>
         <span class="vertical_middle_align"> {{this.authService.getSessions().prenom}} {{this.authService.getSessions().nom}} </span>
         <mat-icon color="primary" class="vertical_middle_align horizontal-align_right">edit</mat-icon>
       </mat-card>
 
+      <br/>
       <mat-card class="example-card">
         <mat-icon color="primary" class="vertical_middle_align">subject</mat-icon>
         <span class="vertical_middle_align"> {{this.authService.getSessions().libelle_prob}}  </span>

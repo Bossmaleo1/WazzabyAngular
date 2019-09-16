@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   messagepublic: MessagePublic;
   messagepublicsubscription: Subscription;
 
-  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
+  @ViewChild('fileInput', {static: true}) fileInput: ElementRef;
 
 
   IconEtatColorPublicConver = true;
@@ -150,12 +150,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     const count_notification_url = this.constance.dns
       .concat('/api/CountNotification?id_recepteur=')
       .concat(this.authService.getSessions().id);
+
     this.httpClient
       .get(url)
       .subscribe(
         (response1) => {
           this.publicconvertservice.conversationsPublics = response1;
           this.publicmessages = this.publicconvertservice.conversationsPublics;
+
+          //console.log(this.publicconvertservice.conversationsPublics);
+
           this.afficher_spinner_messagepublic = false;
           if ((this.publicconvertservice.conversationsPublics).length === 0) {
             this.empty_message = true;
@@ -315,6 +319,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                     this.updateservice.disparaitreprogressbar = 'none';
                     this.updateservice.disparaitreimage = 'block';
                     this.etat = 0;
+                    console.log(response);
                   },
                   (error) => {
                     this.updateservice.disparaitreprogressbar = 'none';
@@ -408,6 +413,8 @@ export class HomeComponent implements OnInit, OnDestroy {
               maleosama.name = nom_du_user;
               maleosama.status_text_content = libellemessagepublic;
               maleosama.status_photo = this.constance.messagepublicobject.status_photo;
+              console.log(maleosama.status_photo);
+              console.log(maleosama.etat_photo_status);
               maleosama.updated = this.constance.messagepublicobject.updated;
               maleosama.user_id = this.authService.sessions.id;
               maleosama.user_photo = this.authService.getSessions().photo;
@@ -416,6 +423,9 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.publicconvertservice.conversationsPublics.unshift(maleosama);
               this.publicmessages = this.publicconvertservice.conversationsPublics;
               this.openSnackBar('Insertion effectuee avec succes !', 'succes');
+
+
+              console.log(response1);
 
               return response1;
             },

@@ -17,6 +17,7 @@ export class ProblematiqueItemComponent implements OnInit {
   @Input() index: number;
   @Input() id: number;
   @Input() name: string;
+  icon: string;
 
   constructor(public problematiqueitemservice: ProblematiqueItemService
     , private httpClient: HttpClient
@@ -26,6 +27,89 @@ export class ProblematiqueItemComponent implements OnInit {
     , public  router: Router) { }
 
   ngOnInit() {
+    /*console.log(this.index);
+    console.log(this.id);
+    console.log(this.name);*/
+
+    //console.log(this.problematiqueitemservice.Libelle);
+    this.icon = 'subject';
+
+    //shall we test if the problematiques list exist
+    //if problematiques list exists it's does it means we are in the component problematiquesdetails
+    if (typeof this.problematiqueitemservice.problematiques != 'undefined') {
+
+      //shall we test if the language it's french and the problematique sport
+      if (this.problematiqueitemservice.problematiques[0].Lang === 'fr' && this.problematiqueitemservice.Libelle === 'Sport') {
+        //console.log(this.id);
+        if (this.name === 'Football' ) {
+            this.icon = 'sports_soccer';
+        } else if (this.name === 'Tennis') {
+          this.icon = 'sports_tennis';
+        } else if (this.name === 'Rugby') {
+          this.icon = 'sports_rugby';
+        } else if (this.name === 'Basketball') {
+          this.icon = 'sports_basketball';
+        } else if (this.name === 'Volley') {
+          this.icon = 'sports_volleyball';
+        } else if (this.name === 'MMA') {
+          this.icon = 'sports_mma';
+        } else if (this.name === 'Esport') {
+          this.icon = 'sports_esports';
+        } else if (this.name === 'Baseball') {
+          this.icon = 'sports_baseball';
+        } else if (this.name === 'Judo') {
+          this.icon = 'sports_kabaddi';
+        } else if (this.name === 'Handball') {
+          this.icon = 'sports_handball';
+        } else if (this.name === 'Golf') {
+          this.icon = 'sports_golf';
+        } else if (this.name === 'Football Americain') {
+          this.icon = 'sports_football';
+        } else if (this.name === 'MotorSport') {
+          this.icon = 'sports_motorsports';
+        } else if (this.name === 'Natation') {
+          this.icon = 'pool';
+        } else if (this.name === 'Cyclisme') {
+          this.icon = 'subject';
+        } else if (this.name === 'Cricket') {
+          this.icon = 'sports_cricket';
+        } else if (this.index === 16) {
+          this.icon = 'sports_cricket';
+        } else if (this.name === 'Hockey') {
+          this.icon = 'sports_hockey';
+        }
+
+      }
+
+      //console.log(this.problematiqueitemservice.problematiquescat);
+
+     // if (typeof this.problematiqueitemservice.problematiquescat != 'undefined') {
+           /* console.log(this.problematiqueitemservice.problematiquescat[this.index].Libelle);
+            if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr' && this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Sport' ) {
+              this.icon = 'sports_hockey';
+            }*/
+
+     // }
+
+    }
+
+    /*if (typeof this.problematiqueitemservice.problematiquescat != 'undefined' ) {
+        if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr' && typeof  this.problematiqueitemservice.problematiquescat[this.index].Libelle != 'undefined' ) {
+          if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Sport') {
+            this.icon = 'sports';
+          }
+        } else if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr' && typeof  this.problematiqueitemservice.problematiquescat[this.index].Libelle != 'undefined') {
+          if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Musique') {
+            this.icon = 'music_note';
+          }
+
+        } else if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr' && typeof  this.problematiqueitemservice.problematiquescat[this.index].Libelle != 'undefined') {
+          if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Méloncolique') {
+            this.icon = 'mood_bad';
+          }
+        }
+
+     }*/
   }
 
   OnDetailsProb() {

@@ -30,6 +30,7 @@ export class ProblematiqueDetailsComponent implements OnInit {
     this.problematiqueitemservice.afficher_block_problematique = false;
     this.connexionToServer(url);
     this.problematiqueitemservice.testprobcomponent = 2;
+    //console.log(this.problematiqueitemservice);
   }
 
   openSnackBar(message: string, action: string) {
@@ -46,6 +47,7 @@ export class ProblematiqueDetailsComponent implements OnInit {
           this.problematiqueitemservice.problematiques  = response;
           this.problematiqueitemservice.afficher_spinner_probgen = false;
           this.problematiqueitemservice.afficher_block_problematique = true;
+          //console.log(this.problematiqueitemservice.problematiques);
         },
         (error) => {
           this.openSnackBar('Une erreur serveur vient de se produire', 'erreur');
