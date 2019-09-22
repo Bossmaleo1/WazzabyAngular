@@ -126,7 +126,15 @@ export class PublicconvertDetailsComponent implements OnInit {
         (response2) => {
           this.publiccomments.Comments = response2;
           this.comments = this.publiccomments.Comments;
-          this.display_progressbar = true;
+          this.publiccomments.countcomments = this.comments[2].countcomment;
+          this.publiccomments.datecommentitem = this.comments[2].date.date;
+          /*console.log("Le count du bossmaleo : ");
+          console.log(this.publiccomments.countcomments);
+          console.log(this.publiccomments.datecommentitem);*/
+          //this.display_progressbar = true;
+
+          this.ConnexionCommentItem();
+
           if (this.publiccomments.Comments.length === 0) {
             this.error_message = "Aucun message public";
             this.icon = 'add_comment';
@@ -347,6 +355,51 @@ export class PublicconvertDetailsComponent implements OnInit {
 
         }
       );
+  }
+
+  ConnexionCommentItem() {
+      const url_displaycommentitem = this.constance.dns
+        .concat('/api/displayCommentItem?id_messagepublic=')
+        .concat(this.publiccomments.id)
+        .concat('&date=').concat(this.publiccomments.datecommentitem);
+
+    this.httpClient
+      .get(url_displaycommentitem)
+      .subscribe(
+        (response2) => {
+          //this.publiccomments.Comments = response2;
+          //this.comments = this.publiccomments.Comments;
+
+          //this.publiccomments.datecommentitem = this.comments[2].date.date;
+          let temp : any;
+          temp = response2;
+          for (let i = 0;i<temp.length;i++) {
+            this.comments.push(temp[i]);
+          }
+
+          const temp_countitem = (this.publiccomments.countcomments - this.comments.length);
+          if (temp_countitem >= 3) {
+            this.publiccomments.datecommentitem = temp[2].date.date;
+            this.ConnexionCommentItem();
+            //this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[2].date.date);
+          } else if (temp_countitem === 2) {
+            this.publiccomments.datecommentitem  = temp[1].date.date;
+            this.ConnexionCommentItem();
+            //this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
+          } else if (temp_countitem === 1) {
+            this.publiccomments.datecommentitem  = temp[0].date.date;
+            this.ConnexionCommentItem();
+            //this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
+          } else if (this.comments.length === this.publiccomments.countcomments) {
+            this.display_progressbar = true;
+          }
+
+          return response2;
+        },
+        (error) => {
+        }
+      );
+
   }
 
 

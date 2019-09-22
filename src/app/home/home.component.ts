@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {HomeDesignService} from '../Services/home.design.service';
 import {MatSlideToggleChange, MatSnackBar, MatTabChangeEvent} from '@angular/material';
 import {Router} from '@angular/router';
@@ -16,6 +16,8 @@ import {PublicConvertServices} from '../Services/public.convert.services';
 import {DeleteMessagepublicService} from '../Services/delete.messagepublic.service';
 import {UtilService} from '../Services/util.service';
 import {UpdateService} from '../Services/update.service';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 
 
@@ -25,9 +27,11 @@ import {UpdateService} from '../Services/update.service';
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: speedDialFabAnimations
+  encapsulation: ViewEncapsulation.None
 })
 export class HomeComponent implements OnInit, OnDestroy {
+
+
   fabTogglerState = 'inactive';
 
   messagepublic: MessagePublic;
@@ -82,6 +86,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   afficher_block_homepage: string = 'inline-block';*/
   checked_active_mode_anonymous = false;
   color_anonymous = 'white';
+  display_emoji = false;
+
 
   constructor(private homedesign: HomeDesignService
     ,         private  router: Router
@@ -102,6 +108,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    //this.updateservice.libellemessagepublic = "Votre Message public";
     this.progressbaractivationmodeanonymous = 'none';
     this.checked_active_mode_anonymous = false;
     if (this.authService.getSessions().etat === '1') {
@@ -158,13 +165,25 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.publicconvertservice.conversationsPublics = response1;
           this.publicmessages = this.publicconvertservice.conversationsPublics;
 
-          //console.log(this.publicconvertservice.conversationsPublics);
+          this.publicconvertservice.dateitem = this.publicmessages[2].date.date;
+          this.publicconvertservice.countitem = this.publicmessages[2].countmessagepublicitem;
 
-          this.afficher_spinner_messagepublic = false;
+          //console.log(this.publicconvertservice.countitem);
+
+          //this.afficher_spinner_messagepublic = false;
           if ((this.publicconvertservice.conversationsPublics).length === 0) {
             this.empty_message = true;
             this.error_message = 'Il y a aucune publication pour cette problematique';
+          } else {
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, this.publicconvertservice.dateitem);
           }
+
+          /*console.log(response1);
+          console.log("Espace de séparation");
+          console.log(this.publicconvertservice.dateitem);
+          console.log("Espace de séparation");
+          console.log(this.publicconvertservice.countitem);*/
+
           return response1;
         },
         (error) => {
@@ -355,7 +374,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addMessagePublic() {
-    if (this.updateservice.libelle_photo === 'PUBLIER') {
+    //if (this.updateservice.libelle_photo === 'PUBLIER') {
+      /*const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
+      this.updateservice.libellemessagepublic = elementtemp.innerHTML;*/
       const libellemessagepublic = this.updateservice.libellemessagepublic;
       const element: HTMLInputElement = document.getElementById('tenantPhotoId') as HTMLInputElement;
       if (this.updateservice.libellemessagepublic.length === 0 && element.files.length === 0 ) {
@@ -387,20 +408,20 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.updateservice.block_boite_de_dialogue = 'none';
               const nom_du_user = ''.concat(this.authService.sessions.prenom).concat(' ').concat(this.authService.sessions.nom);
               const maleosama = {
-                checkmention:0,
-                countcomment:0,
-                countjaime:0,
-                countjaimepas:0,
+                checkmention: 0,
+                countcomment: 0,
+                countjaime: 0,
+                countjaimepas: 0,
                 etat_photo_status: '',
                 id: 0,
-                id_checkmention:0,
+                id_checkmention: 0,
                 name: '',
-                status_text_content:'',
-                status_photo:'',
-                updated:'',
-                user_id:0,
-                user_photo:'',
-                visibility:true
+                status_text_content: '',
+                status_photo: '',
+                updated: '',
+                user_id: 0,
+                user_photo: '',
+                visibility: true
               };
               this.etat = 1;
               maleosama.checkmention = 0;
@@ -413,8 +434,8 @@ export class HomeComponent implements OnInit, OnDestroy {
               maleosama.name = nom_du_user;
               maleosama.status_text_content = libellemessagepublic;
               maleosama.status_photo = this.constance.messagepublicobject.status_photo;
-              console.log(maleosama.status_photo);
-              console.log(maleosama.etat_photo_status);
+              //console.log(maleosama.status_photo);
+              //console.log(maleosama.etat_photo_status);
               maleosama.updated = this.constance.messagepublicobject.updated;
               maleosama.user_id = this.authService.sessions.id;
               maleosama.user_photo = this.authService.getSessions().photo;
@@ -423,9 +444,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.publicconvertservice.conversationsPublics.unshift(maleosama);
               this.publicmessages = this.publicconvertservice.conversationsPublics;
               this.openSnackBar('Insertion effectuee avec succes !', 'succes');
-
-
-              console.log(response1);
+              //console.log(response1);
 
               return response1;
             },
@@ -437,7 +456,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
           );
       }
-    } else if (this.updateservice.libelle_photo === 'MODIFIER') {
+    /*}*/ /*else if (this.updateservice.libelle_photo === 'MODIFIER') {
       const libellemessagepublic = this.updateservice.libellemessagepublic;
       this.updateservice.disparaitrechamp = 'none';
       this.updateservice.disparaitreimage = 'none';
@@ -482,7 +501,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         );
 
-    }
+    }*/
 
   }
 
@@ -714,6 +733,126 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
         (error) => {
         });
+  }
+
+  //this function help us to add our emoji in our textearea
+ // addEmoji(event) {
+    //console.log(event.emoji.native);
+    //let emoji_block_inline : string;
+    //const emoji_block_inline = event.emoji.native;
+    //const myspan: HTMLSpanElement;
+    //myspan.className = 'emojistyle';
+    //myspan.innerText = 'test du boss !!';
+    //event.emoji.native
+    /*const element = document.createElement('span');
+    element.className = 'emojistyle';
+    element.innerText = event.emoji.native;
+    const mytextarea: HTMLInputElement = document.getElementById('problematique') as HTMLTextAreaElement;
+
+    mytextarea.innerHTML = element;
+
+    console.log(element.innerText);*/
+    /*const element: HTMLSpanElement = document.createElement('span');
+    element.className = 'emojistyle';
+    element.innerText = event.emoji.native;*/
+    //const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
+    //const emojitemp = '<span class="emojistyle">'.concat(event.emoji.native).concat('</span>');
+    //this.updateservice.libellemessagepublic = elementtemp.innerHTML.concat(emojitemp).concat('<span class="policy_transition"></span>');
+    /*console.log(element);*/
+    /*const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
+    elementtemp.innerHTML = elementtemp;*/
+    //console.log(event);
+  //}
+
+  //This function help us to display our emoji manager
+  //displayemojimanager() {
+  //  this.display_emoji = !this.display_emoji;
+ // }
+
+  //onInputOurTextArea(event) {
+    //const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
+    //this.updateservice.libellemessagepublic = elementtemp.innerHTML;
+   // elementtemp.focus();
+    //this.updateservice.libellemessagepublic = '<span>'.concat(this.updateservice.libellemessagepublic).concat('</span>');
+    //this.updateservice.libellemessagepublic = this.updateservice.libellemessagepublic.concat('<span>').concat(event.data).concat('</span>');
+
+    /*if (event.data != null) {
+      this.updateservice.libellemessagepublic = this.updateservice.libellemessagepublic.concat('<span>').concat(event.data).concat('</span>');
+    }
+    console.log(event);*/
+
+    //console.log(event.data);
+    /*this.updateservice.libellemessagepublictemp = this.updateservice.libellemessagepublic.concat(event.data);*/
+ // }
+
+  ConnexionItemMessagePublic( id_problematique : any, id_user : any, date: any) {
+
+    const url_lazy_loading = this.constance.dns.concat('/api/displayMessagePublicItem?id_problematique=')
+                .concat(String(id_problematique)).concat('&id_user=')
+                .concat(String(id_user))
+                .concat('&date=').concat(String(date));
+
+
+    this.httpClient
+      .get(url_lazy_loading)
+      .subscribe(
+        (response1) => {
+          let temp: any;
+          temp =   response1;
+          for (let i = 0; i < temp.length; i++) {
+            this.publicmessages.push(temp[i]);
+          }
+
+          const temp_countitem = (this.publicconvertservice.countitem - this.publicmessages.length);
+          if (temp_countitem >= 3){
+                this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[2].date.date);
+          } else if (temp_countitem === 2) {
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
+          } else if (temp_countitem === 1) {
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date);
+          } else if (this.publicmessages.length === this.publicconvertservice.countitem) {
+            //this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
+            //this.afficher_spinner_messagepublic = true;
+            this.afficher_spinner_messagepublic = false;
+          }
+
+          /*if ( temp_countitem === 3 ) {
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[2].date.date);
+          } else if (temp_countitem === 1) {
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date);
+          } else if (temp_countitem === 2) {
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
+          }*/
+
+
+          // this.publicconvertservice.conversationsPublics.push(response1);
+          //this.publicmessages = this.publicconvertservice.conversationsPublics;
+          /*console.log(this.publicconvertservice.conversationsPublics);*/
+          /*this.publicconvertservice.conversationsPublics = response1;
+          this.publicmessages = this.publicconvertservice.conversationsPublics;
+          this.publicconvertservice.dateitem = this.publicmessages[2].date;
+          this.publicconvertservice.countitem = this.publicmessages[2].countmessagepublicitem;
+
+          if ((this.publicconvertservice.conversationsPublics).length === 0) {
+            this.empty_message = true;
+            this.error_message = 'Il y a aucune publication pour cette problematique';
+          }*/
+
+          /*console.log(response1);
+          console.log("Espace de séparation");
+          console.log(this.publicconvertservice.dateitem);
+          console.log("Espace de séparation");
+          console.log(this.publicconvertservice.countitem);*/
+
+          return response1;
+        },
+        (error) => {
+          /*this.afficher_spinner_messagepublic = false;
+          this.openSnackBar('Une erreur serveur vient de se produire', 'erreur');
+          this.empty_message = true;
+          this.error_message = 'Une erreur serveur vient de se produire';*/
+        });
+
   }
 
 }

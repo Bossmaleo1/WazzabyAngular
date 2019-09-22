@@ -131,9 +131,13 @@
     <br/><br/>
     <mat-card class="example-card" *ngIf="!this.problematiqueitemservice.afficher_spinner_probgen">
 
-      <mat-form-field class="example-full-width-search-form">
+      <mat-card-content (click)="Reactualize()" *ngIf="this.problematiqueitemservice.afficher_network_error">
+        <p id="textstyle"><mat-icon class="block-error-message">block</mat-icon><span class="block-error-message"> une erreur réseau vient de survenir</span></p>
+      </mat-card-content>
+
+      <mat-form-field class="example-full-width-search-form" *ngIf="!this.problematiqueitemservice.afficher_network_error">
         <input (keyup)="onSearchProb($event)"  [(ngModel)]="libelle_catprob" matInput placeholder="Rechercher" type="text"/>
-        <mat-icon matSuffix>search</mat-icon>
+        <mat-icon matSuffix color="primary">search</mat-icon>
       </mat-form-field>
 
       <app-problematique-item *ngFor="let prob of this.problematiqueitemservice.problematiquescat; let i = index"

@@ -30,6 +30,7 @@ export class ProblematiqueGeneraleComponent implements OnInit {
   ngOnInit() {
     const url = this.constance.dns.concat('/api/displayAllcatprob');
     this.problematiqueitemservice.afficher_spinner_probgen = true;
+    this.problematiqueitemservice.afficher_network_error = false;
     this.connexionToServer(url);
     this.problematiqueitemservice.testprobcomponent = 1;
     this.title_prob = this.problematiqueitemservice.Libelle;
@@ -51,11 +52,13 @@ export class ProblematiqueGeneraleComponent implements OnInit {
         (response) => {
           this.problematiqueitemservice.problematiquescat  = response;
           this.problematiqueitemservice.afficher_spinner_probgen = false;
+          this.problematiqueitemservice.afficher_network_error = false;
         },
         (error) => {
           this.afficher_spinner = false;
           this.openSnackBar('Une erreur serveur vient de se produire', 'erreur');
           this.problematiqueitemservice.afficher_spinner_probgen = false;
+          this.problematiqueitemservice.afficher_network_error = true;
         }
       );
   }
@@ -68,6 +71,13 @@ export class ProblematiqueGeneraleComponent implements OnInit {
 
   onSearchProb(event) {
     const url = this.constance.dns.concat('/api/ProbElasticSearchService?libelle_catprob=').concat(this.libelle_catprob);
+    this.connexionToServer(url);
+  }
+
+  Reactualize() {
+    this.problematiqueitemservice.afficher_spinner_probgen = true;
+    this.problematiqueitemservice.afficher_network_error = false;
+    const url = this.constance.dns.concat('/api/displayAllcatprob');
     this.connexionToServer(url);
   }
 

@@ -135,7 +135,7 @@
 
       <mat-form-field class="example-full-width-search-form">
         <input (keyup)="onSearchProb($event)"  [(ngModel)]="libelle_catprob" matInput placeholder="Rechercher" type="text"/>
-        <mat-icon matSuffix>search</mat-icon>
+        <mat-icon matSuffix color="primary">search</mat-icon>
       </mat-form-field>
 
       <app-problematique-item *ngFor="let prob of this.problematiqueitemservice.problematiques; let i = index"

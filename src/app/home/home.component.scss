@@ -16,7 +16,7 @@
 
 .block-toolbar2 {
   position: fixed;
-  top:10%;
+  top:6%;
   left:0%;
   right:0%;
   height:5%;
@@ -186,7 +186,7 @@
 }
 
 .background-message-public-form-block {
-  background-color: rgba(68,138,255,0.1);
+  background-color: rgba(68,138,255,0.3);
 }
 
 .background-message-public-form-input {
@@ -202,3 +202,26 @@
   vertical-align: middle;
   color:red;
 }
+
+@font-face {
+  font-family: 'emoji';
+  src: url('https://1337god.github.io/emojione/extras/fonts/emojione-svg.otf')
+  format('otf');
+}
+
+.emojistyle {
+  font-family: emoji;
+  text-justify: none;
+}
+
+#textarea {
+  -moz-appearance: textfield-multiline;
+  border: 1px solid #448AFF;
+  height: 70px;
+  overflow: auto;
+  padding: 2px;
+  resize: both;
+  width: 100%;
+  font-family: emoji;
+}
+

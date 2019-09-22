@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import {PublicConvertServices} from '../Services/public.convert.services';
 import {ConstanceService} from '../Services/Constance.service';
 import {Router} from '@angular/router';
@@ -13,7 +13,8 @@ import {UpdateService} from '../Services/update.service';
 @Component({
   selector: 'app-publicconvert',
   templateUrl: './publicconvert.component.html',
-  styleUrls: ['./publicconvert.component.scss']
+  styleUrls: ['./publicconvert.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PublicconvertComponent implements OnInit {
 

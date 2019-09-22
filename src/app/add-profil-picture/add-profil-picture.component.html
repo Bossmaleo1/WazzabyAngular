@@ -1,14 +1,15 @@
 <mat-progress-bar mode="indeterminate" [ngStyle]="{'display':''+disparaitreprogressbar+''}"></mat-progress-bar>
 <div  class="icon-block" [ngStyle]="{'display':''+disparaitreblock+''}">
 
-  <div class="boss-image-premier">
+  <!--div class="boss-image-premier"></div-->
     <div  class="icon-base" [ngStyle]="{'display':''+notreimage+''}">
-      <img matRipple id="icon" [src]="imageSrc" />
-    </div>
 
-    <button mat-icon-button (click)="onpenFileBrowser($event)" [ngStyle]="{'display':''+notreimage+''}">
-      <mat-icon color="primary">camera_alt</mat-icon>
-    </button>
+      <img matRipple id="icon" [src]="imageSrc" />
+
+      <button  mat-icon-button (click)="onpenFileBrowser($event)" [ngStyle]="{'display':''+notreimage+''}">
+        <mat-icon color="primary">camera_alt</mat-icon>
+      </button>
+
   </div>
   <!-- debut rogneur d'image -->
   <div class="boss-regis" [ngStyle]="{'display':''+blockcroping+''}">

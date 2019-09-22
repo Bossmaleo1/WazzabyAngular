@@ -6,7 +6,7 @@
   </mat-card-header>
   <img mat-card-image  src="{{status_photo}}" alt="Photo of message public" [ngStyle]="{'display':''+etat_photo_status+''}">
   <mat-card-content>
-    <p>{{status_text_content}}</p>
+    <p   [innerHTML]='status_text_content' ></p>
   </mat-card-content>
   <mat-card-actions>
     <mat-divider></mat-divider>

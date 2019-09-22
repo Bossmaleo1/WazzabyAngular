@@ -28,8 +28,10 @@
     "chroma-js": "^2.0.2",
     "hammerjs": "^2.0.8",
     "ngx-emoj": "0.0.7",
+    "ngx-emoji-picker": "0.0.2",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "xmpp-bosh-client": "^0.4.1",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

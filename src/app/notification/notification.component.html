@@ -26,8 +26,8 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <section *ngIf="!this.notificationService.progressbarnotification">
-      <app-notification-item  *ngFor="let notification of this.notificationService.notifications; let i = index"
+    <section>
+      <app-notification-item  *ngFor="let notification of this.notificationslist; let i = index"
                               [index] = "i"
                               [nom] = "notification.nom"
                               [prenom] = "notification.prenom"

@@ -19,4 +19,7 @@ export class PublicCommentsServices {
   id_recepteur: number;
   notification_marqueur: boolean = false;
 
+  countcomments: any;
+  datecommentitem: any;
+
 }

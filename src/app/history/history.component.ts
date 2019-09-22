@@ -42,7 +42,13 @@ export class HistoryComponent implements OnInit {
         (response1) => {
           this.publicconvertservice.conversationsPublics = response1;
           this.publicmessages = this.publicconvertservice.conversationsPublics;
-          this.afficher_spinner_messagepublic = false;
+          this.publicconvertservice.dateitem = this.publicmessages[2].date.date;
+          this.publicconvertservice.countitem = this.publicmessages[2].countmessagepublichistorique;
+          /*console.log(this.publicconvertservice.dateitem);
+          console.log(this.publicconvertservice.countitem);*/
+          this.ConnexionItemHistoriqueMessagePublic();
+          //this.afficher_spinner_messagepublic = false;
+
           if ((this.publicconvertservice.conversationsPublics).length === 0) {
             this.empty_message = true;
             this.error_message = 'Il y a aucune publication pour cette problematique';
@@ -98,4 +104,44 @@ export class HistoryComponent implements OnInit {
 
         });
   }
+
+  ConnexionItemHistoriqueMessagePublic() {
+    const url_lazy_loading = this.constance.dns.concat('/api/HistoriqueMessagePublicItem?id_problematique=')
+      .concat(String(this.authService.getSessions().id_prob)).concat('&id_user=')
+      .concat(String(this.authService.getSessions().id))
+      .concat('&date=').concat(String(this.publicconvertservice.dateitem));
+
+    this.httpClient
+      .get(url_lazy_loading)
+      .subscribe(
+        (response1) => {
+          let temp: any;
+          temp =   response1;
+          for (let i = 0; i < temp.length; i++) {
+            this.publicmessages.push(temp[i]);
+          }
+
+          const temp_countitem = (this.publicconvertservice.countitem - this.publicmessages.length);
+          //console.log(this.publicmessages.length);
+          //console.log(this.publicconvertservice.countitem);
+          if (temp_countitem >= 3){
+            this.publicconvertservice.dateitem = temp[2].date.date;
+            this.ConnexionItemHistoriqueMessagePublic();
+          } else if (temp_countitem === 2) {
+            this.publicconvertservice.dateitem = temp[2].date.date;
+            this.ConnexionItemHistoriqueMessagePublic();
+          } else if (temp_countitem === 1) {
+            this.publicconvertservice.dateitem = temp[2].date.date;
+            this.ConnexionItemHistoriqueMessagePublic();
+          } else if (this.publicmessages.length === this.publicconvertservice.countitem) {
+            this.afficher_spinner_messagepublic = false;
+          }
+
+          return response1;
+        },
+        (error) => {
+        });
+  }
+
+
 }

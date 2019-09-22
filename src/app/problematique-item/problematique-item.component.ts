@@ -80,36 +80,36 @@ export class ProblematiqueItemComponent implements OnInit {
         }
 
       }
+    }
 
-      //console.log(this.problematiqueitemservice.problematiquescat);
+    if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr') {
+      if (typeof this.problematiqueitemservice.problematiquescat[this.index] != 'undefined') {
 
-     // if (typeof this.problematiqueitemservice.problematiquescat != 'undefined') {
-           /* console.log(this.problematiqueitemservice.problematiquescat[this.index].Libelle);
-            if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr' && this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Sport' ) {
-              this.icon = 'sports_hockey';
-            }*/
+        if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Sport') {
+          this.icon = 'sports';
+        }
 
-     // }
+        if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Musique') {
+            this.icon = 'music_note';
+        }
+
+        if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Méloncolique') {
+          this.icon = 'mood_bad';
+        }
+
+        if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Fête/Céremonie/Evénement') {
+          this.icon = 'event';
+        }
+
+        if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Business') {
+          this.icon = 'timeline';
+        }
+
+
+      }
 
     }
 
-    /*if (typeof this.problematiqueitemservice.problematiquescat != 'undefined' ) {
-        if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr' && typeof  this.problematiqueitemservice.problematiquescat[this.index].Libelle != 'undefined' ) {
-          if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Sport') {
-            this.icon = 'sports';
-          }
-        } else if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr' && typeof  this.problematiqueitemservice.problematiquescat[this.index].Libelle != 'undefined') {
-          if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Musique') {
-            this.icon = 'music_note';
-          }
-
-        } else if (this.problematiqueitemservice.problematiquescat[0].Lang === 'fr' && typeof  this.problematiqueitemservice.problematiquescat[this.index].Libelle != 'undefined') {
-          if (this.problematiqueitemservice.problematiquescat[this.index].Libelle === 'Méloncolique') {
-            this.icon = 'mood_bad';
-          }
-        }
-
-     }*/
   }
 
   OnDetailsProb() {

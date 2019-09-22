@@ -52,6 +52,9 @@ import {LyIconModule} from '@alyle/ui/icon';
 import {LyTypographyModule} from '@alyle/ui/typography';
 import {LyButtonModule} from '@alyle/ui/button';
 import {LyResizingCroppingImageModule} from '@alyle/ui/resizing-cropping-images';
+import {PickerModule} from '@ctrl/ngx-emoji-mart';
+// tslint:disable-next-line:import-spacing
+import  {  NgxEmojiPickerModule  }  from  'ngx-emoji-picker';
 
 const appRoutes: Routes = [
   {path: 'about', component: AboutComponent},
@@ -110,7 +113,9 @@ const appRoutes: Routes = [
     LyButtonModule,
     LyIconModule,
     LyTypographyModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    PickerModule,
+    NgxEmojiPickerModule.forRoot()
   ],
   providers: [
     AuthService,

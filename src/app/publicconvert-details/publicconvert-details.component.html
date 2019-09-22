@@ -78,7 +78,7 @@
 
 
       </mat-card>
-      <div *ngIf="this.display_progressbar">
+      <!--div *ngIf="this.display_progressbar"-->
         <app-comments *ngFor="let comment of comments; let i = index"
                       [indexOfConvert]="i"
                       [name]="comment.name"
@@ -87,10 +87,9 @@
                       [status_text_content]="comment.status_text_content"
                       [id]="comments.id"
         ></app-comments>
-      </div>
+      <!--/div-->
 
       <div class="timeline-wrapper" *ngIf="!this.display_progressbar">
-        <br/>
         <div class="timeline-item">
           <div class="animated-background">
             <div class="background-masker header-top"></div>

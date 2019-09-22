@@ -4,4 +4,7 @@ export class NotificationService {
   progressbarnotification: boolean = true;
   id_notification: number;
   etat: string;
+
+  notificationdate: any;
+  notificationcount: any;
 }

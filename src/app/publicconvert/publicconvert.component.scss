@@ -11,3 +11,15 @@
 #icon-color {
   color:#757575;
 }
+
+@font-face {
+  font-family: 'emoji';
+  src: url('http://localhost/Icons/emojione-svg.woff2')
+  format('woff2');
+}
+
+.emojistyle {
+  font-family: emoji;
+  text-align: justify;
+  text-justify: inter-word;
+}

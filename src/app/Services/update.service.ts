@@ -9,6 +9,8 @@ export class UpdateService {
   disparaitrechamp: string = 'block';
   imageSrc: any;
   libellemessagepublic: string = '';
+  libellemessagepublictemp: string = '';
+  emojistocker: string = '';
   photo_value: any;
   libelle_photo: string = '';
   dialog_update_or_display: boolean = false;
