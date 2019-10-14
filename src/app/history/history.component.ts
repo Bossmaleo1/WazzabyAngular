@@ -36,23 +36,35 @@ export class HistoryComponent implements OnInit {
     const url = this.constance.dns.concat('/api/HistoriqueMessagePublic?id_problematique=')
       .concat(this.authService.getSessions().id_prob)
       .concat('&id_user=').concat(this.authService.getSessions().id);
+
     this.httpClient
       .get(url)
       .subscribe(
         (response1) => {
+          let temp : any;
+          temp = response1;
+          //console.log(this.publicconvertservice.conversationsPublics);
           this.publicconvertservice.conversationsPublics = response1;
-          this.publicmessages = this.publicconvertservice.conversationsPublics;
-          this.publicconvertservice.dateitem = this.publicmessages[2].date.date;
-          this.publicconvertservice.countitem = this.publicmessages[2].countmessagepublichistorique;
-          /*console.log(this.publicconvertservice.dateitem);
-          console.log(this.publicconvertservice.countitem);*/
-          this.ConnexionItemHistoriqueMessagePublic();
-          //this.afficher_spinner_messagepublic = false;
+          /*this.publicmessages = this.publicconvertservice.conversationsPublics;
+          this.publicconvertservice.dateitem = this.publicmessages[0].date.date;
+          this.publicconvertservice.countitem = this.publicmessages[0].countmessagepublichistorique;
+          this.publicconvertservice.publicconvert_id = temp[0].id;
+          this.publicconvertservice.libelle = temp[0].status_text_content;*/
+
+         // this.ConnexionItemHistoriqueMessagePublic();
 
           if ((this.publicconvertservice.conversationsPublics).length === 0) {
             this.empty_message = true;
             this.error_message = 'Il y a aucune publication pour cette problematique';
             this.openSnackBar(this.error_message, 'erreur');
+          } else {
+            this.publicmessages = this.publicconvertservice.conversationsPublics;
+            this.publicconvertservice.dateitem = this.publicmessages[0].date.date;
+            this.publicconvertservice.countitem = this.publicmessages[0].countmessagepublichistorique;
+            this.publicconvertservice.publicconvert_id = temp[0].id;
+            this.publicconvertservice.libelle = temp[0].status_text_content;
+
+            this.ConnexionItemHistoriqueMessagePublic();
           }
           return response1;
         },
@@ -93,6 +105,7 @@ export class HistoryComponent implements OnInit {
             this.empty_message = true;
             this.error_message = 'Il y a aucune publication pour cette problematique';
             this.openSnackBar(this.error_message, 'erreur');
+            this.afficher_spinner_messagepublic = false;
           }
           return response1;
         },
@@ -109,7 +122,9 @@ export class HistoryComponent implements OnInit {
     const url_lazy_loading = this.constance.dns.concat('/api/HistoriqueMessagePublicItem?id_problematique=')
       .concat(String(this.authService.getSessions().id_prob)).concat('&id_user=')
       .concat(String(this.authService.getSessions().id))
-      .concat('&date=').concat(String(this.publicconvertservice.dateitem));
+      .concat('&publicconvert_id=').concat(String(this.publicconvertservice.publicconvert_id))
+      .concat('&date=').concat(String(this.publicconvertservice.dateitem))
+      .concat('&libelle=').concat(String(this.publicconvertservice.libelle));
 
     this.httpClient
       .get(url_lazy_loading)
@@ -122,18 +137,15 @@ export class HistoryComponent implements OnInit {
           }
 
           const temp_countitem = (this.publicconvertservice.countitem - this.publicmessages.length);
-          //console.log(this.publicmessages.length);
-          //console.log(this.publicconvertservice.countitem);
-          if (temp_countitem >= 3){
-            this.publicconvertservice.dateitem = temp[2].date.date;
+          if (temp_countitem >= 1) {
+            this.publicconvertservice.dateitem = temp[0].date.date;
+            this.publicconvertservice.publicconvert_id = temp[0].id;
+            this.publicconvertservice.libelle = temp[0].status_text_content;
+            this.publicconvertservice.anonyme = temp[0].anonymous;
             this.ConnexionItemHistoriqueMessagePublic();
-          } else if (temp_countitem === 2) {
-            this.publicconvertservice.dateitem = temp[2].date.date;
-            this.ConnexionItemHistoriqueMessagePublic();
-          } else if (temp_countitem === 1) {
-            this.publicconvertservice.dateitem = temp[2].date.date;
-            this.ConnexionItemHistoriqueMessagePublic();
-          } else if (this.publicmessages.length === this.publicconvertservice.countitem) {
+          }
+
+          if (temp_countitem == 1) {
             this.afficher_spinner_messagepublic = false;
           }
 

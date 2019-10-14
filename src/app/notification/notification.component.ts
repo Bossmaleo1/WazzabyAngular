@@ -37,15 +37,11 @@ export class NotificationComponent implements OnInit {
         (response) => {
           this.notificationService.notifications = response;
           this.notificationslist = this.notificationService.notifications;
-          this.notificationService.notificationdate = this.notificationslist[2].date.date;
-          this.notificationService.notificationcount = this.notificationslist[2].countnotification;
-
+          this.notificationService.notificationdate = this.notificationslist[0].date.date;
+          this.notificationService.notificationcount = this.notificationslist[0].countnotification;
+          this.notificationService.notification_id = this.notificationService.notifications[0].notification_id;
           this.ConnexionItemNotification();
 
-          /*console.log(this.notificationService.notificationdate);
-          console.log(this.notificationService.notificationcount);
-          console.log(this.notificationslist);*/
-          //this.notificationService.progressbarnotification = false;
           if (this.notificationService.notifications.length === 0) {
             this.error_message = 'Vous avez aucune notification';
             this.display_error_message = true;
@@ -103,7 +99,9 @@ export class NotificationComponent implements OnInit {
     const url_lazy_loading = this.constance.dns.concat('/api/displayNotificationItem?id_recepteur=')
       .concat(this.authService.getSessions().id)
       .concat('&date=')
-      .concat(this.notificationService.notificationdate);
+      .concat(this.notificationService.notificationdate)
+      .concat('&notification_id=')
+      .concat(this.notificationService.notification_id);
 
     this.httpClient
       .get(url_lazy_loading)
@@ -111,26 +109,18 @@ export class NotificationComponent implements OnInit {
         (response1) => {
           let temp: any;
           temp =   response1;
-          for (let i = 0; i < temp.length; i++) {
-            this.notificationslist.push(temp[i]);
+
+          const tempcountitem = (this.notificationService.notificationcount - this.notificationslist.length);
+          if (tempcountitem>= 1) {
+            this.notificationslist.push(temp[0]);
+            this.notificationService.notificationdate = temp[0].date.date;
+            this.notificationService.notification_id = temp[0].notification_id;
+            this.ConnexionItemNotification();
           }
 
-          const temp_countitem = (this.notificationService.notificationcount - this.notificationslist.length);
-          //console.log(this.publicmessages.length);
-          //console.log(this.publicconvertservice.countitem);
-          if (temp_countitem >= 3){
-            this.notificationService.notificationdate = temp[2].date.date;
-            this.ConnexionItemNotification();
-          } else if (temp_countitem === 2) {
-            this.notificationService.notificationdate = temp[1].date.date;
-            this.ConnexionItemNotification();
-          } else if (temp_countitem === 1) {
-            this.notificationService.notificationdate = temp[0].date.date;
-            this.ConnexionItemNotification();
-          } else if (this.notificationslist.length === this.notificationService.notificationcount) {
+          if (tempcountitem == 1) {
             this.notificationService.progressbarnotification = false;
           }
-
           return response1;
         },
         (error) => {

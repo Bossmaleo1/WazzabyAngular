@@ -65,21 +65,21 @@
             </div>
           </div>
 
+          <mat-divider></mat-divider>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Votre commentaire</mat-label>
+            <input matInput  type="text" [(ngModel)]="libelle_comment"  autocomplete="off" />
+            <button mat-icon-button matSuffix (click)="onSendComment()">
+              <mat-icon>send</mat-icon>
+            </button>
+          </mat-form-field>
+
         </mat-card-actions>
-        <mat-divider></mat-divider>
-
-        <mat-form-field class="example-full-width">
-          <input matInput placeholder="Votre commentaire" type="text" [(ngModel)]="libelle_comment"  autocomplete="off" />
-          <button mat-icon-button matSuffix (click)="onSendComment()">
-            <mat-icon>send</mat-icon>
-          </button>
-        </mat-form-field>
-
-
 
       </mat-card>
-      <!--div *ngIf="this.display_progressbar"-->
-        <app-comments *ngFor="let comment of comments; let i = index"
+
+      <app-comments *ngFor="let comment of comments; let i = index"
                       [indexOfConvert]="i"
                       [name]="comment.name"
                       [updated]="comment.updated"
@@ -87,7 +87,6 @@
                       [status_text_content]="comment.status_text_content"
                       [id]="comments.id"
         ></app-comments>
-      <!--/div-->
 
       <div class="timeline-wrapper" *ngIf="!this.display_progressbar">
         <div class="timeline-item">

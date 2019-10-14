@@ -108,7 +108,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //this.updateservice.libellemessagepublic = "Votre Message public";
     this.progressbaractivationmodeanonymous = 'none';
     this.checked_active_mode_anonymous = false;
     if (this.authService.getSessions().etat === '1') {
@@ -158,32 +157,28 @@ export class HomeComponent implements OnInit, OnDestroy {
       .concat('/api/CountNotification?id_recepteur=')
       .concat(this.authService.getSessions().id);
 
+
     this.httpClient
       .get(url)
       .subscribe(
         (response1) => {
+
           this.publicconvertservice.conversationsPublics = response1;
+
           this.publicmessages = this.publicconvertservice.conversationsPublics;
 
-          this.publicconvertservice.dateitem = this.publicmessages[2].date.date;
-          this.publicconvertservice.countitem = this.publicmessages[2].countmessagepublicitem;
-
-          //console.log(this.publicconvertservice.countitem);
-
-          //this.afficher_spinner_messagepublic = false;
           if ((this.publicconvertservice.conversationsPublics).length === 0) {
             this.empty_message = true;
             this.error_message = 'Il y a aucune publication pour cette problematique';
+            this.afficher_spinner_messagepublic = false;
           } else {
-            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, this.publicconvertservice.dateitem);
+            this.publicconvertservice.libelle = this.publicconvertservice.conversationsPublics[0].status_text_content;
+            this.publicconvertservice.anonyme = this.publicconvertservice.conversationsPublics[0].anonymous;
+            this.publicconvertservice.dateitem = this.publicmessages[0].date.date;
+            this.publicconvertservice.countitem = this.publicmessages[0].countmessagepublicitem;
+            this.publicconvertservice.publicconvert_id = this.publicmessages[0].id;
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, this.publicconvertservice.dateitem,this.publicconvertservice.publicconvert_id,this.publicconvertservice.libelle,this.publicconvertservice.anonyme);
           }
-
-          /*console.log(response1);
-          console.log("Espace de séparation");
-          console.log(this.publicconvertservice.dateitem);
-          console.log("Espace de séparation");
-          console.log(this.publicconvertservice.countitem);*/
-
           return response1;
         },
         (error) => {
@@ -338,7 +333,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                     this.updateservice.disparaitreprogressbar = 'none';
                     this.updateservice.disparaitreimage = 'block';
                     this.etat = 0;
-                    console.log(response);
                   },
                   (error) => {
                     this.updateservice.disparaitreprogressbar = 'none';
@@ -374,9 +368,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   addMessagePublic() {
-    //if (this.updateservice.libelle_photo === 'PUBLIER') {
-      /*const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
-      this.updateservice.libellemessagepublic = elementtemp.innerHTML;*/
       const libellemessagepublic = this.updateservice.libellemessagepublic;
       const element: HTMLInputElement = document.getElementById('tenantPhotoId') as HTMLInputElement;
       if (this.updateservice.libellemessagepublic.length === 0 && element.files.length === 0 ) {
@@ -785,13 +776,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     /*this.updateservice.libellemessagepublictemp = this.updateservice.libellemessagepublic.concat(event.data);*/
  // }
 
-  ConnexionItemMessagePublic( id_problematique : any, id_user : any, date: any) {
+  ConnexionItemMessagePublic( id_problematique : any, id_user : any, date: any, publicconvert_id:any,libelle:any,anonyme:any) {
 
     const url_lazy_loading = this.constance.dns.concat('/api/displayMessagePublicItem?id_problematique=')
                 .concat(String(id_problematique)).concat('&id_user=')
                 .concat(String(id_user))
-                .concat('&date=').concat(String(date));
-
+                .concat('&date=').concat(String(date)).concat('&publicconvert_id=').concat(String(publicconvert_id))
+                .concat('&libelle=').concat(libelle).concat('&anonyme=').concat(anonyme);
 
     this.httpClient
       .get(url_lazy_loading)
@@ -799,50 +790,20 @@ export class HomeComponent implements OnInit, OnDestroy {
         (response1) => {
           let temp: any;
           temp =   response1;
-          for (let i = 0; i < temp.length; i++) {
-            this.publicmessages.push(temp[i]);
+          const temp_countitem = (this.publicconvertservice.countitem - this.publicmessages.length);
+          if (temp_countitem >= 1){
+            this.publicconvertservice.publicconvert_id = temp[0].id;
+            this.publicconvertservice.libelle = temp[0].status_text_content;
+            this.publicconvertservice.anonyme = temp[0].anonymous;
+
+            //this.publicconvertservice.libelle =
+            this.publicmessages.push(temp[0]);
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date,this.publicconvertservice.publicconvert_id,temp[0].status_text_content,temp[0].anonymous);
           }
 
-          const temp_countitem = (this.publicconvertservice.countitem - this.publicmessages.length);
-          if (temp_countitem >= 3){
-                this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[2].date.date);
-          } else if (temp_countitem === 2) {
-            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
-          } else if (temp_countitem === 1) {
-            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date);
-          } else if (this.publicmessages.length === this.publicconvertservice.countitem) {
-            //this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
-            //this.afficher_spinner_messagepublic = true;
+          if (temp_countitem == 1) {
             this.afficher_spinner_messagepublic = false;
           }
-
-          /*if ( temp_countitem === 3 ) {
-            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[2].date.date);
-          } else if (temp_countitem === 1) {
-            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date);
-          } else if (temp_countitem === 2) {
-            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
-          }*/
-
-
-          // this.publicconvertservice.conversationsPublics.push(response1);
-          //this.publicmessages = this.publicconvertservice.conversationsPublics;
-          /*console.log(this.publicconvertservice.conversationsPublics);*/
-          /*this.publicconvertservice.conversationsPublics = response1;
-          this.publicmessages = this.publicconvertservice.conversationsPublics;
-          this.publicconvertservice.dateitem = this.publicmessages[2].date;
-          this.publicconvertservice.countitem = this.publicmessages[2].countmessagepublicitem;
-
-          if ((this.publicconvertservice.conversationsPublics).length === 0) {
-            this.empty_message = true;
-            this.error_message = 'Il y a aucune publication pour cette problematique';
-          }*/
-
-          /*console.log(response1);
-          console.log("Espace de séparation");
-          console.log(this.publicconvertservice.dateitem);
-          console.log("Espace de séparation");
-          console.log(this.publicconvertservice.countitem);*/
 
           return response1;
         },

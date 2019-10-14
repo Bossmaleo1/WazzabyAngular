@@ -20,12 +20,15 @@
         <mat-divider></mat-divider>
         <br/>
         <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Email" name="email" autocomplete="off" ngModel/>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Votre Email</mat-label>
+            <input matInput  name="email" autocomplete="off" ngModel/>
           </mat-form-field> <br/>
 
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Mot de passe" autocomplete="off" [type]="hide ? 'password' : 'text'" name="password" ngModel/>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Votre Mot de passe</mat-label>
+            <input matInput  autocomplete="off" [type]="hide ? 'password' : 'text'" name="password" ngModel/>
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </mat-form-field> <br/>
 

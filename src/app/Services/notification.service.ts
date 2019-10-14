@@ -7,4 +7,5 @@ export class NotificationService {
 
   notificationdate: any;
   notificationcount: any;
+  notification_id: any;
 }

@@ -88,6 +88,7 @@ export class PublicconvertDetailsComponent implements OnInit {
         .get(urlmarquernotification)
         .subscribe(
           (response) => {
+
             return response;
           },
           (error) => {
@@ -124,21 +125,25 @@ export class PublicconvertDetailsComponent implements OnInit {
       .get(url)
       .subscribe(
         (response2) => {
+          let temp : any;
+          temp = response2;
           this.publiccomments.Comments = response2;
-          this.comments = this.publiccomments.Comments;
-          this.publiccomments.countcomments = this.comments[2].countcomment;
-          this.publiccomments.datecommentitem = this.comments[2].date.date;
-          /*console.log("Le count du bossmaleo : ");
-          console.log(this.publiccomments.countcomments);
-          console.log(this.publiccomments.datecommentitem);*/
-          //this.display_progressbar = true;
-
-          this.ConnexionCommentItem();
 
           if (this.publiccomments.Comments.length === 0) {
             this.error_message = "Aucun message public";
             this.icon = 'add_comment';
             this.display_error_message = true;
+            this.display_progressbar = true;
+          } else {
+            this.comments = this.publiccomments.Comments;
+            this.publiccomments.countcomments = this.comments[0].countcomment;
+            this.publiccomments.datecommentitem = this.comments[0].date.date;
+            this.publiccomments.libelle = this.comments[0].status_text_content;
+            this.publiccomments.date = this.comments[0].date.date;
+            this.publiccomments.comment_id = this.comments[0].id;
+            console.log(this.publiccomments.comment_id);
+            console.log(this.publiccomments.libelle);
+            this.ConnexionCommentItem();
           }
           return response2;
         },
@@ -361,38 +366,40 @@ export class PublicconvertDetailsComponent implements OnInit {
       const url_displaycommentitem = this.constance.dns
         .concat('/api/displayCommentItem?id_messagepublic=')
         .concat(this.publiccomments.id)
-        .concat('&date=').concat(this.publiccomments.datecommentitem);
+        .concat('&date=').concat(this.publiccomments.datecommentitem)
+        .concat('&libelle=').concat(this.publiccomments.libelle).concat('&comment_id=').concat(this.publiccomments.comment_id);
+
+     // console.log(url_displaycommentitem);
 
     this.httpClient
       .get(url_displaycommentitem)
       .subscribe(
         (response2) => {
-          //this.publiccomments.Comments = response2;
-          //this.comments = this.publiccomments.Comments;
-
-          //this.publiccomments.datecommentitem = this.comments[2].date.date;
           let temp : any;
+          let temp_countitem: any;
           temp = response2;
-          for (let i = 0;i<temp.length;i++) {
-            this.comments.push(temp[i]);
-          }
+          if(temp.length == 1 ){
+              temp_countitem = (this.publiccomments.countcomments - this.comments.length);
 
-          const temp_countitem = (this.publiccomments.countcomments - this.comments.length);
-          if (temp_countitem >= 3) {
-            this.publiccomments.datecommentitem = temp[2].date.date;
-            this.ConnexionCommentItem();
-            //this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[2].date.date);
-          } else if (temp_countitem === 2) {
-            this.publiccomments.datecommentitem  = temp[1].date.date;
-            this.ConnexionCommentItem();
-            //this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
-          } else if (temp_countitem === 1) {
-            this.publiccomments.datecommentitem  = temp[0].date.date;
-            this.ConnexionCommentItem();
-            //this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[1].date.date);
-          } else if (this.comments.length === this.publiccomments.countcomments) {
+              if (temp_countitem >= 1) {
+
+                //console.log(this.publiccomments.datecommentitem);
+                this.comments.push(temp[0]);
+                this.publiccomments.datecommentitem = temp[0].date.date;
+                this.publiccomments.libelle = temp[0].status_text_content;
+                this.publiccomments.comment_id = temp[0].id;
+                this.ConnexionCommentItem();
+
+                //console.log(this.publiccomments.comment_id);
+              }
+
+              if (temp_countitem == 1 || temp_countitem == 0) {
+                this.display_progressbar = true;
+              }
+          } else if (temp.length == 0) {
             this.display_progressbar = true;
           }
+
 
           return response2;
         },

@@ -10,14 +10,13 @@ export class PublicConvertServices {
 
   itemobject: any;
   public_response: any;
+  publicconvert_id: any;
+  libelle: any;
+  anonyme: any;
 
 
   getPublicConversById(id: number) {
-    /*const convert = this.conversationsPublics.find(
-        (convertObject) => {
-            return convertObject.id === id;
-        }
-    );*/
+
     return this.conversationsPublics[id];
   }
 

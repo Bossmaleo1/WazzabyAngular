@@ -21,5 +21,8 @@ export class PublicCommentsServices {
 
   countcomments: any;
   datecommentitem: any;
+  libelle: any;
+  date: any;
+  comment_id: any;
 
 }

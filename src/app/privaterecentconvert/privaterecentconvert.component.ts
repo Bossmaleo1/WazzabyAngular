@@ -17,20 +17,22 @@ export class PrivaterecentconvertComponent implements OnInit {
   constructor(private privaterecentconvertservices: PrivateRecentconvertServices) { }
 
   ngOnInit() {
-      console.log("Test du bossmaleo !!!");
-      const USERNAME = 'admin';
-      const PASSWORD = 'admin';
-      const URL = 'http://localhost:9090/http-bind.jsp/';
-    //const connection = new BoshClient(USERNAME, PASSWORD, URL);
+      //console.log("Test du bossmaleo !!!");
+      /*const USERNAME = 'admin@localhost';
+      const PASSWORD = 'passw0rd';
+      const URL = 'http://172.17.0.2:5280/http-bind/';
+    const connection = new BoshClient(USERNAME, PASSWORD, URL);
       const client = new BoshClient(USERNAME, PASSWORD, URL);
-   // console.log(connection);
+    console.log(connection);
+
+    client.on("online", () => {
+      console.log("Connected successfully");
+    });
     client.on("error", (e) => {
       console.log("Error event");
       console.log(e);
     });
-    client.on("online", () => {
-      console.log("Connected successfully");
-    });
+
 
     client.on("ping", () => {
       console.log(`Ping received at ${new Date()}`);
@@ -45,7 +47,7 @@ export class PrivaterecentconvertComponent implements OnInit {
       console.log("Disconnected/Offline");
     });
 
-    client.connect();
+    client.connect();*/
   }
 
 }
