@@ -34,6 +34,9 @@ export class ProblematiqueGeneraleComponent implements OnInit {
     this.connexionToServer(url);
     this.problematiqueitemservice.testprobcomponent = 1;
     this.title_prob = this.problematiqueitemservice.Libelle;
+
+    //On synchronise les problematique
+    this.ConnexionSynchronizationProblematique();
   }
 
   OnBack() {
@@ -81,4 +84,30 @@ export class ProblematiqueGeneraleComponent implements OnInit {
     this.connexionToServer(url);
   }
 
+  ConnexionSynchronizationProblematique() {
+    const url_synchronization_problematique = this.constance.dns.concat('/api/SynchronizationProblematique?user_id=').concat(String(this.authService.getSessions().id));
+
+    this.httpClient
+      .get(url_synchronization_problematique)
+      .subscribe(
+        (response) => {
+          let reponse : any;
+          reponse = response;
+          if (reponse.problematique_libelle != this.authService.sessions.libelle_prob) {
+            //on met les sessions à jour
+            this.authService.sessions.libelle_prob = reponse.problematique_libelle;
+            this.authService.sessions.id_prob = reponse.problematique_id;
+
+            let dtExpire = new Date();
+            dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
+            //on met aussi les cookies à jour
+            this.authService.setCookie('libelle_prob', reponse.problematique_libelle, dtExpire, '/', null, null );
+            this.authService.setCookie('id_prob', reponse.problematique_id, dtExpire, '/', null, null );
+          }
+          return response;
+        },
+        (error) => {
+
+        });
+  }
 }

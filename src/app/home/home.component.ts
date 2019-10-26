@@ -117,6 +117,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.checked_active_mode_anonymous = false;
       this.color_anonymous = 'white';
     }
+
+
+
     this.privateusersOnlineHome = this.privateuseronlineservices.userOnlines;
     this.privaterecentConvertHome = this.privaterecentconvertservices.RecentConverts;
     this.nom = this.authService.getSessions().nom;
@@ -163,6 +166,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(
         (response1) => {
 
+
           this.publicconvertservice.conversationsPublics = response1;
 
           this.publicmessages = this.publicconvertservice.conversationsPublics;
@@ -206,6 +210,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     // variation des badges de messagepublic
     this.badgehidden_public_message = false;
     this.badgetaille_public_message = 10;
+
+    //on lance la synchronization des problematiques
+    this.ConnexionSynchronizationProblematique();
   }
 
   getColor(etat: boolean) {
@@ -790,30 +797,63 @@ export class HomeComponent implements OnInit, OnDestroy {
         (response1) => {
           let temp: any;
           temp =   response1;
+
           const temp_countitem = (this.publicconvertservice.countitem - this.publicmessages.length);
           if (temp_countitem >= 1){
+            //console.log(temp[0]);
             this.publicconvertservice.publicconvert_id = temp[0].id;
             this.publicconvertservice.libelle = temp[0].status_text_content;
             this.publicconvertservice.anonyme = temp[0].anonymous;
 
+            //console.log(temp[0].date.date);
+
             //this.publicconvertservice.libelle =
             this.publicmessages.push(temp[0]);
+            console.log(this.authService.getSessions().id_prob);
             this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date,this.publicconvertservice.publicconvert_id,temp[0].status_text_content,temp[0].anonymous);
           }
 
-          if (temp_countitem == 1) {
+          if (temp_countitem == 1 || temp_countitem == 0) {
             this.afficher_spinner_messagepublic = false;
           }
 
           return response1;
         },
         (error) => {
-          /*this.afficher_spinner_messagepublic = false;
-          this.openSnackBar('Une erreur serveur vient de se produire', 'erreur');
-          this.empty_message = true;
-          this.error_message = 'Une erreur serveur vient de se produire';*/
+
         });
 
+  }
+
+
+  ConnexionSynchronizationProblematique() {
+    const url_synchronization_problematique = this.constance.dns.concat('/api/SynchronizationProblematique?user_id=').concat(String(this.authService.getSessions().id));
+
+    this.httpClient
+      .get(url_synchronization_problematique)
+      .subscribe(
+        (response) => {
+          let reponse : any;
+          reponse = response;
+          if (reponse.problematique_libelle != this.authService.sessions.libelle_prob) {
+              //on met les sessions à jour
+              this.authService.sessions.libelle_prob = reponse.problematique_libelle;
+              this.authService.sessions.id_prob = reponse.problematique_id;
+
+              console.log("C'est un succès !!");
+
+              let dtExpire = new Date();
+              dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
+              //on met aussi les cookies à jour
+              this.authService.setCookie('libelle_prob1', reponse.problematique_libelle, dtExpire, '/', null, null );
+              this.authService.setCookie('id_prob1', reponse.problematique_id, dtExpire, '/', null, null );
+              this.problematique_libelle = reponse.problematique_libelle;
+          }
+          return response;
+        },
+        (error) => {
+
+        });
   }
 
 }

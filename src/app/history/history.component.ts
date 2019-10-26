@@ -75,6 +75,9 @@ export class HistoryComponent implements OnInit {
           this.error_message = 'Une erreur serveur vient de se produire';
 
         });
+
+    //On synchronise les problematique
+    this.ConnexionSynchronizationProblematique();
   }
 
   OnBack() {
@@ -137,7 +140,7 @@ export class HistoryComponent implements OnInit {
           }
 
           const temp_countitem = (this.publicconvertservice.countitem - this.publicmessages.length);
-          if (temp_countitem >= 1) {
+          if (temp_countitem >= 1 ) {
             this.publicconvertservice.dateitem = temp[0].date.date;
             this.publicconvertservice.publicconvert_id = temp[0].id;
             this.publicconvertservice.libelle = temp[0].status_text_content;
@@ -145,7 +148,7 @@ export class HistoryComponent implements OnInit {
             this.ConnexionItemHistoriqueMessagePublic();
           }
 
-          if (temp_countitem == 1) {
+          if (temp_countitem == 1 || temp_countitem == 0) {
             this.afficher_spinner_messagepublic = false;
           }
 
@@ -155,5 +158,35 @@ export class HistoryComponent implements OnInit {
         });
   }
 
+
+  ConnexionSynchronizationProblematique() {
+    const url_synchronization_problematique = this.constance.dns.concat('/api/SynchronizationProblematique?user_id=').concat(String(this.authService.getSessions().id));
+
+    this.httpClient
+      .get(url_synchronization_problematique)
+      .subscribe(
+        (response) => {
+          let reponse : any;
+          reponse = response;
+          if (reponse.problematique_libelle != this.authService.sessions.libelle_prob) {
+            //on met les sessions à jour
+            this.authService.sessions.libelle_prob = reponse.problematique_libelle;
+            this.authService.sessions.id_prob = reponse.problematique_id;
+
+            console.log("C'est un succès !!");
+
+            let dtExpire = new Date();
+            dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
+            //on met aussi les cookies à jour
+            this.authService.setCookie('libelle_prob1', reponse.problematique_libelle, dtExpire, '/', null, null );
+            this.authService.setCookie('id_prob1', reponse.problematique_id, dtExpire, '/', null, null );
+            //this.problematique_libelle = reponse.problematique_libelle;
+          }
+          return response;
+        },
+        (error) => {
+
+        });
+  }
 
 }

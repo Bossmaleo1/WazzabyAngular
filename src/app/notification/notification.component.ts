@@ -55,6 +55,9 @@ export class NotificationComponent implements OnInit {
           this.display_error_message = true;
           this.openSnackBar(this.error_message,'erreur');
         });
+
+    //On synchronise les problematique
+    this.ConnexionSynchronizationProblematique();
   }
 
   OnBack() {
@@ -126,6 +129,36 @@ export class NotificationComponent implements OnInit {
         (error) => {
         });
 
+  }
+
+  ConnexionSynchronizationProblematique() {
+    const url_synchronization_problematique = this.constance.dns.concat('/api/SynchronizationProblematique?user_id=').concat(String(this.authService.getSessions().id));
+
+    this.httpClient
+      .get(url_synchronization_problematique)
+      .subscribe(
+        (response) => {
+          let reponse : any;
+          reponse = response;
+          if (reponse.problematique_libelle != this.authService.sessions.libelle_prob) {
+            //on met les sessions à jour
+            this.authService.sessions.libelle_prob = reponse.problematique_libelle;
+            this.authService.sessions.id_prob = reponse.problematique_id;
+
+            console.log("C'est un succès !!");
+
+            let dtExpire = new Date();
+            dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
+            //on met aussi les cookies à jour
+            this.authService.setCookie('libelle_prob1', reponse.problematique_libelle, dtExpire, '/', null, null );
+            this.authService.setCookie('id_prob1', reponse.problematique_id, dtExpire, '/', null, null );
+            //this.problematique_libelle = reponse.problematique_libelle;
+          }
+          return response;
+        },
+        (error) => {
+
+        });
   }
 
 }
