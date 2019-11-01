@@ -110,6 +110,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.progressbaractivationmodeanonymous = 'none';
     this.checked_active_mode_anonymous = false;
+    //on implemente la méthode de redirectionnement pour les mobiles
+    this.constance.RedirectToDownloadPage();
     if (this.authService.getSessions().etat === '1') {
       this.checked_active_mode_anonymous = true;
       this.color_anonymous = 'warn';
@@ -117,9 +119,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.checked_active_mode_anonymous = false;
       this.color_anonymous = 'white';
     }
-
-
-
     this.privateusersOnlineHome = this.privateuseronlineservices.userOnlines;
     this.privaterecentConvertHome = this.privaterecentconvertservices.RecentConverts;
     this.nom = this.authService.getSessions().nom;
@@ -809,7 +808,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
             //this.publicconvertservice.libelle =
             this.publicmessages.push(temp[0]);
-            console.log(this.authService.getSessions().id_prob);
+          //  console.log(this.authService.getSessions().id_prob);
             this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date,this.publicconvertservice.publicconvert_id,temp[0].status_text_content,temp[0].anonymous);
           }
 

@@ -141,8 +141,8 @@ export class PublicconvertDetailsComponent implements OnInit {
             this.publiccomments.libelle = this.comments[0].status_text_content;
             this.publiccomments.date = this.comments[0].date.date;
             this.publiccomments.comment_id = this.comments[0].id;
-            console.log(this.publiccomments.comment_id);
-            console.log(this.publiccomments.libelle);
+            /*console.log(this.publiccomments.comment_id);
+            console.log(this.publiccomments.libelle);*/
             this.ConnexionCommentItem();
           }
           return response2;

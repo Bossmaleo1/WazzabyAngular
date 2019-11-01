@@ -26,6 +26,8 @@ export class ConnexionComponent implements OnInit {
 
   ngOnInit() {
     this.authStatus = this.authService.isAuth;
+    //on implemente la méthode de redirectionnement pour les mobiles
+    this.constance.RedirectToDownloadPage();
     //this.afficher_spinner = true;
     if (String(this.authService.getCookie('nom1')) != 'null') {
       const maleosama = new Object();

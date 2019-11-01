@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {PublicCommentsServices} from '../Services/public.comments.services';
 import {NotificationService} from '../Services/notification.service';
 import {Router} from '@angular/router';
+import {ConstanceService} from '../Services/Constance.service';
 
 @Component({
   selector: 'app-notification-item',
@@ -25,14 +26,23 @@ export class NotificationItemComponent implements OnInit {
 
   constructor(private publiccomments: PublicCommentsServices
     , private  router: Router
+    , private constance: ConstanceService
     , private notificationService: NotificationService) { }
 
   ngOnInit() {
+
+    //on test si l'utilisateur n'a pas de photo de profil
+    if(this.photo == this.constance.dns1.concat('/uploads/photo_de_profil/')) {
+      console.log("yes !!");
+      this.photo = this.constance.dns1.concat('/uploads/photo_de_profil/ic_profile_colorier.png');
+    }
+
     if (this.etat == '1') {
       this.hide_done_icon = true;
     } else {
       this.hide_done_icon = false;
     }
+
   }
 
   RootTo() {

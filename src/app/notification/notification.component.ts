@@ -25,7 +25,6 @@ export class NotificationComponent implements OnInit {
     , private httpClient: HttpClient) { }
 
   ngOnInit() {
-
     this.notificationService.progressbarnotification = true;
     this.display_error_message = false;
     const url = this.constance.dns
