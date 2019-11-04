@@ -14,6 +14,10 @@ export class ProfilComponent implements OnInit {
 
   hide = true;
 
+  icon_libelle: string = "arrow_back";
+  title_libelle: string = 'Profil';
+  tooltip_title:string = '';
+
   constructor(private  router: Router
     , private authService: AuthService
     , private _location: Location
@@ -23,10 +27,23 @@ export class ProfilComponent implements OnInit {
   ngOnInit() {
     //On synchronise les problematique
     this.ConnexionSynchronizationProblematique();
+    //au cas où le cookie de libelle_prob1 est un undefined
+    if (String(this.authService.getCookie('libelle_prob1')) == 'undefined') {
+      /*this.authService.etat_problematique = false;
+      this.router.navigate(['problematique']);*/
+      this.icon_libelle = 'arrow_forward';
+      this.title_libelle = 'Bienvenue dans Wazzaby !!';
+      this.tooltip_title = 'Passer à l\'étape suivante ?';
+    }
   }
 
   OnBack() {
-    this._location.back();
+    if ((String(this.authService.getCookie('libelle_prob1')) == 'undefined')) {
+      this.router.navigate(['home']);
+    } else {
+      this._location.back();
+    }
+
   }
 
   OnDeconnect() {
@@ -62,6 +79,10 @@ export class ProfilComponent implements OnInit {
         (error) => {
 
         });
+  }
+
+  RootToProb() {
+    this.router.navigate(['problematique']);
   }
 
 

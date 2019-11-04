@@ -35,16 +35,18 @@ export class NotificationComponent implements OnInit {
       .subscribe(
         (response) => {
           this.notificationService.notifications = response;
-          this.notificationslist = this.notificationService.notifications;
-          this.notificationService.notificationdate = this.notificationslist[0].date.date;
-          this.notificationService.notificationcount = this.notificationslist[0].countnotification;
-          this.notificationService.notification_id = this.notificationService.notifications[0].notification_id;
-          this.ConnexionItemNotification();
 
           if (this.notificationService.notifications.length === 0) {
+            this.notificationService.progressbarnotification = false;
             this.error_message = 'Vous avez aucune notification';
             this.display_error_message = true;
             this.openSnackBar(this.error_message,'erreur');
+          } else if (this.notificationService.notifications.length > 0) {
+            this.notificationslist = this.notificationService.notifications;
+            this.notificationService.notificationdate = this.notificationslist[0].date.date;
+            this.notificationService.notificationcount = this.notificationslist[0].countnotification;
+            this.notificationService.notification_id = this.notificationService.notifications[0].notification_id;
+            this.ConnexionItemNotification();
           }
           return response;
         },

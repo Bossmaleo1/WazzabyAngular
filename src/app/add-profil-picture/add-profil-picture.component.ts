@@ -40,7 +40,7 @@ export class AddProfilPictureComponent implements OnInit {
     , private formBuilder: FormBuilder
     , private constance: ConstanceService
     , private httpClient: HttpClient
-    ,private theme: LyTheme2
+    , private theme: LyTheme2
     , public snackBar: MatSnackBar
     , private authService: AuthService) { }
 
@@ -76,9 +76,9 @@ export class AddProfilPictureComponent implements OnInit {
     event.preventDefault();
     let element: HTMLElement = document.getElementById('tenantPhotoId') as HTMLElement;
     element.click();
-    this.notreimage = 'none';
+    this.constance.disabled_example_card = false;
+    //this.notreimage = 'none';
     this.blockcroping = 'block';
-    console.log(document.getElementById('tenantPhotoId'));
   }
 
   onChangeFile(event) {
@@ -166,6 +166,9 @@ export class AddProfilPictureComponent implements OnInit {
           let formData: FormData = new FormData();
           formData.append('photostatus', this.dataURItoBlob(e.dataURL));
           formData.append('name_file', 'photo_'.concat(this.authService.sessions.id).concat('.').concat(e.dataURL.split('/')[1].split(';')[0]));
+          let dtExpire = new Date();
+          dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
+          this.authService.setCookie('photo1', 'photo_'.concat(this.authService.sessions.id).concat('.').concat(e.dataURL.split('/')[1].split(';')[0]), dtExpire, '/', null, null );
           this.httpClient
             .post(url1, formData)
             .subscribe(
@@ -181,6 +184,7 @@ export class AddProfilPictureComponent implements OnInit {
                 this.disparaitreblock = 'block';
                 this.authService.sessions.photo = e.dataURL;
                 this.openSnackBar('Votre photo a ete mise a jour avec succes', 'succes');
+                this.constance.disabled_example_card = true;
               },
               (error) => {
                 this.openSnackBar('Une erreur serveur vient de se produire', 'erreur');

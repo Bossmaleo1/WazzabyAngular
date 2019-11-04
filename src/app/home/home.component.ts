@@ -112,6 +112,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.checked_active_mode_anonymous = false;
     //on implemente la méthode de redirectionnement pour les mobiles
     this.constance.RedirectToDownloadPage();
+    //cette condition permet de redirectionner l'utilisateur s'il na pas encore initialiser une problematique
+    if (this.authService.getCookie('libelle_prob1').length === 0) {
+      this.authService.etat_problematique = false;
+      this.router.navigate(['problematique']);
+    }
+    //au cas où le cookie de libelle_prob1 est un undefined
+    if (String(this.authService.getCookie('libelle_prob1')) == 'undefined') {
+      this.authService.etat_problematique = false;
+      this.router.navigate(['problematique']);
+    }
+    //this.constance.RedirectToProblematique(this.authService.etat_problematique);
     if (this.authService.getSessions().etat === '1') {
       this.checked_active_mode_anonymous = true;
       this.color_anonymous = 'warn';
@@ -119,6 +130,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.checked_active_mode_anonymous = false;
       this.color_anonymous = 'white';
     }
+
     this.privateusersOnlineHome = this.privateuseronlineservices.userOnlines;
     this.privaterecentConvertHome = this.privaterecentconvertservices.RecentConverts;
     this.nom = this.authService.getSessions().nom;

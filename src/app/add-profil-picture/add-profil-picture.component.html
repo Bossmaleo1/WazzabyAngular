@@ -6,7 +6,7 @@
 
       <img matRipple id="icon" [src]="imageSrc" />
 
-      <button  mat-icon-button (click)="onpenFileBrowser($event)" [ngStyle]="{'display':''+notreimage+''}">
+      <button matTooltip="Changer votre photo de profil" mat-icon-button (click)="onpenFileBrowser($event)" [ngStyle]="{'display':''+notreimage+''}">
         <mat-icon color="primary">camera_alt</mat-icon>
       </button>
 
@@ -14,15 +14,7 @@
   <!-- debut rogneur d'image -->
   <div class="boss-regis" [ngStyle]="{'display':''+blockcroping+''}">
 
-    <div class="container"
-         fxLayout
-         fxLayout.xs="column"
-         fxLayoutAlign="center"
-         fxLayoutGap="10px"
-         fxLayoutGap.xs="0">
-      <div class="item item-1" fxFlex="20%"></div>
-      <div class="item item-2" fxFlex="20%" fxFlexOrder="3"></div>
-      <div class="item item-3" fxFlex="60%">
+
 
 
         <div *ngIf="cropping.isLoaded">
@@ -47,10 +39,7 @@
         <div>
           <button *ngIf="cropping.isLoaded" mat-icon-button  (click)="cropping.crop()"> <mat-icon>crop</mat-icon></button>
         </div>
-      </div>
 
-
-    </div>
   </div>
 
 

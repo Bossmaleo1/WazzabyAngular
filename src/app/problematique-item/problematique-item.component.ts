@@ -31,6 +31,8 @@ export class ProblematiqueItemComponent implements OnInit {
     console.log(this.id);
     console.log(this.name);*/
 
+
+
     //console.log(this.problematiqueitemservice.Libelle);
     this.icon = 'subject';
 
@@ -139,8 +141,9 @@ export class ProblematiqueItemComponent implements OnInit {
           this.authService.setCookie('libelle_prob1', this.name, dtExpire, '/', null, null );
           this.problematiqueitemservice.afficher_spinner_probgen = false;
           this.openSnackBar("Votre problematique vient d'etre avec succes", 'succes');
+          this.authService.etat_problematique = true;
           this.problematiqueitemservice.afficher_spinner_after_changed_prob = false;
-          this.router.navigate(['home']);
+          this.router.navigate(['connexion']);
         },
         (error) => {
           this.problematiqueitemservice.afficher_spinner_after_changed_prob = false;

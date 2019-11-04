@@ -20,15 +20,17 @@
         <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmitfirstForm(stepper)">
           <ng-template matStepLabel>Verification Adresse mail</ng-template>
 
-          <p *ngIf="afficher_code" class="error-color">Veuillez inserer le code recu par mail dans le champ code validation</p>
+          <p *ngIf="afficher_code" class="error-color">Veuillez inserer le code reçu par mail dans le champ code de validation</p>
 
           <mat-form-field class="example-full-width" *ngIf="!afficher_code" appearance="outline">
             <mat-label>Votre Email</mat-label>
-            <input matInput autocomplete="off" formControlName="email"  required/>
+            <input matInput placeholder="Votre Email" autocomplete="off" formControlName="email"  required/>
+            <mat-hint class="hint-email">{{error_email}}</mat-hint>
           </mat-form-field> <br/>
 
-          <mat-form-field class="example-full-width" *ngIf="afficher_code">
-            <input matInput placeholder="Code de validation" autocomplete="off" formControlName="codevalidation" >
+          <mat-form-field class="example-full-width" *ngIf="afficher_code" appearance="outline">
+            <mat-label>Votre Code de validation</mat-label>
+            <input matInput  placeholder="Votre Code de validation" autocomplete="off" formControlName="codevalidation" >
           </mat-form-field> <br *ngIf="afficher_code" />
           <button mat-raised-button type='submit' color="primary" class="example-full-width" >SUIVANT</button>
 
@@ -39,17 +41,26 @@
         <form [formGroup]="secondFormGroup" (ngSubmit)="onSubmitSecondForm(stepper)">
           <ng-template matStepLabel>Nom, Prenom et date de Naissance</ng-template>
 
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Nom</mat-label>
             <input matInput placeholder="Nom" autocomplete="off" formControlName="Nom" required>
+            <mat-hint class="hint-email">{{error_name}}</mat-hint>
           </mat-form-field> <br/>
-          <mat-form-field class="example-full-width">
-            <input matInput placeholder="Prenom" autocomplete="off" formControlName="Prenom" required>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Prenom</mat-label>
+            <input matInput placeholder="Prenom"  autocomplete="off" formControlName="Prenom" required>
+            <mat-hint class="hint-email">{{error_firstname}}</mat-hint>
           </mat-form-field> <br/>
-          <mat-form-field class="example-full-width">
-            <input matInput [matDatepicker]="picker" formControlName="date" placeholder="Date de naissance" name="date"  class="form-control" autocomplete="off" required>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Date de naissance</mat-label>
+            <input placeholder="Date de naissance" matInput [matDatepicker]="picker" formControlName="date" name="date"  class="form-control" autocomplete="off"  required>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+            <mat-hint class="hint-email">{{error_birthday}}</mat-hint>
           </mat-form-field><br/>
+
           <button mat-raised-button type='submit' color="primary" class="example-full-width" >SUIVANT</button>
 
         </form>
@@ -60,19 +71,25 @@
           <div id="block-radio">
             <mat-radio-group formControlName="sexe" required>
               <mat-radio-button value="H">Homme </mat-radio-button>
-              <span class="example-spacer"></span>
+              <span class="example-spacer"> </span>
               <mat-radio-button value="F" >Femme</mat-radio-button>
+              <br/>
+              <mat-hint class="hint-email">{{error_sex}}</mat-hint>
             </mat-radio-group>
           </div><br/>
 
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Mot de Passe</mat-label>
             <input matInput placeholder="Mot de Passe" autocomplete="off" [type]="hide1 ? 'password' : 'text'" formControlName="password1" required/>
             <mat-icon matSuffix (click)="hide1 = !hide1">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-hint class="hint-email">{{error_password1}}</mat-hint>
           </mat-form-field> <br/>
 
-          <mat-form-field class="example-full-width">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Mot de Passe (Confirmation)</mat-label>
             <input matInput placeholder="Mot de Passe (Confirmation)" autocomplete="off" [type]="hide2 ? 'password' : 'text'" formControlName="password2" required/>
             <mat-icon matSuffix (click)="hide2 = !hide2">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-hint class="hint-email">{{error_password2}}</mat-hint>
           </mat-form-field> <br/>
 
           <button mat-raised-button type='submit' color="primary" class="example-full-width" >TERMINER</button>

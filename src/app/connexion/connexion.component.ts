@@ -86,6 +86,7 @@ export class ConnexionComponent implements OnInit {
             this.constance.test_updatecachephoto = 1;
             if (libelle_boss.length > 0) {
               this.authService.isAuth = true;
+              this.authService.etat_problematique = true;
               this.router.navigate(['home']);
             } else {
               this.authService.isAuth = true;

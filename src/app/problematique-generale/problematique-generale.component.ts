@@ -34,7 +34,6 @@ export class ProblematiqueGeneraleComponent implements OnInit {
     this.connexionToServer(url);
     this.problematiqueitemservice.testprobcomponent = 1;
     this.title_prob = this.problematiqueitemservice.Libelle;
-
     //On synchronise les problematique
     this.ConnexionSynchronizationProblematique();
   }
