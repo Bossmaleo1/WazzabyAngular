@@ -109,7 +109,7 @@ export class ConnexionComponent implements OnInit {
             if (this.authService.sessions.etat === '1') {
               this.authService.sessions.nom = 'Anonyme';
               this.authService.sessions.prenom = 'Utilisateur';
-              this.authService.sessions.photo = 'ic_profile_anonymous';
+              this.authService.sessions.photo = 'ic_profile_anonymous.png';
               this.authService.setCookie('nom1', 'Anonyme', dtExpire, '/', null, null );
               this.authService.setCookie('prenom1',  'Utilisateur', dtExpire, '/', null, null );
               this.authService.setCookie('photo1','ic_profile_anonymous.png', dtExpire, '/', null, null );

@@ -36,7 +36,6 @@ export class HistoryComponent implements OnInit {
     const url = this.constance.dns.concat('/api/HistoriqueMessagePublic?id_problematique=')
       .concat(this.authService.getSessions().id_prob)
       .concat('&id_user=').concat(this.authService.getSessions().id);
-
     this.httpClient
       .get(url)
       .subscribe(
@@ -55,7 +54,7 @@ export class HistoryComponent implements OnInit {
 
           if ((this.publicconvertservice.conversationsPublics).length === 0) {
             this.empty_message = true;
-            this.error_message = 'Il y a aucune publication pour cette problematique';
+            this.error_message = 'Vous avez aucune publication pour cette problematique';
             this.openSnackBar(this.error_message, 'erreur');
           } else {
             this.publicmessages = this.publicconvertservice.conversationsPublics;
@@ -66,6 +65,11 @@ export class HistoryComponent implements OnInit {
 
             this.ConnexionItemHistoriqueMessagePublic();
           }
+
+          if (temp.length === 0) {
+            this.afficher_spinner_messagepublic = false;
+          }
+
           return response1;
         },
         (error) => {
@@ -106,7 +110,7 @@ export class HistoryComponent implements OnInit {
           this.afficher_spinner_messagepublic = false;
           if ((this.publicconvertservice.conversationsPublics).length === 0) {
             this.empty_message = true;
-            this.error_message = 'Il y a aucune publication pour cette problematique';
+            this.error_message = 'Vous avez aucune publication pour cette problematique';
             this.openSnackBar(this.error_message, 'erreur');
             this.afficher_spinner_messagepublic = false;
           }
@@ -172,8 +176,6 @@ export class HistoryComponent implements OnInit {
             //on met les sessions à jour
             this.authService.sessions.libelle_prob = reponse.problematique_libelle;
             this.authService.sessions.id_prob = reponse.problematique_id;
-
-            console.log("C'est un succès !!");
 
             let dtExpire = new Date();
             dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));

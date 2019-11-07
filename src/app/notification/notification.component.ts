@@ -125,6 +125,11 @@ export class NotificationComponent implements OnInit {
           if (tempcountitem == 1) {
             this.notificationService.progressbarnotification = false;
           }
+
+          if (temp.length === 0) {
+            this.notificationService.progressbarnotification = false;
+          }
+
           return response1;
         },
         (error) => {

@@ -189,7 +189,7 @@ export class PublicconvertComponent implements OnInit {
       .concat('&libelle=').concat(message)
       .concat('&id_type=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].id)
       .concat('&etat=0')
-      .concat('id_recepteur=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur)
+      .concat('&id_recepteur=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur)
       .concat('&anonymous=').concat(anonymous);
 
     const pushnotification_url = this.constance.dns1.concat('/Apifcm/apiFCMmessagerie.php?message=').concat(message).concat('&title=Wazzaby')
@@ -223,8 +223,11 @@ export class PublicconvertComponent implements OnInit {
       this.jaimepas++;
       this.publicconvert.conversationsPublics[this.indexOfConvert].checkmention = 2;
       this.publicconvert.conversationsPublics[this.indexOfConvert].id_checkmention = this.temp_id_checkmention;
-      this.recordNotification(url_notification);
-      this.recordNotification(pushnotification_url);
+      if (this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur != this.authService.getSessions().id) {
+        this.recordNotification(url_notification);
+        this.recordNotification(pushnotification_url);
+      }
+      console.log ("0 et 0");
     } else if (this.checkmention === 1) {
       const url = this.constance.dns.concat('/api/MentionsUpdate?id_etat=2')
         .concat('&id_mention=')
