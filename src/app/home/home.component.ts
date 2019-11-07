@@ -225,6 +225,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     //on lance la synchronization des problematiques
     this.ConnexionSynchronizationProblematique();
+    //on lance la synchronization du mode anonymous
+    this.ConnexionSynchronizationAnonymat();
   }
 
   getColor(etat: boolean) {
@@ -450,7 +452,6 @@ export class HomeComponent implements OnInit, OnDestroy {
               maleosama.updated = this.constance.messagepublicobject.updated;
               maleosama.user_id = this.authService.sessions.id;
               maleosama.user_photo = this.authService.getSessions().photo;
-              console.log(maleosama.user_photo);
 
 
               maleosama.visibility = true;
@@ -458,7 +459,6 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.publicconvertservice.conversationsPublics.unshift(maleosama);
               this.publicmessages = this.publicconvertservice.conversationsPublics;
               this.openSnackBar('Insertion effectuee avec succes !', 'succes');
-              //console.log(response1);
 
               return response1;
             },
@@ -868,6 +868,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
+  //Ce service web permet de synchroniser le changement
   ConnexionSynchronizationProblematique() {
     const url_synchronization_problematique = this.constance.dns.concat('/api/SynchronizationProblematique?user_id=').concat(String(this.authService.getSessions().id));
 
@@ -881,9 +882,6 @@ export class HomeComponent implements OnInit, OnDestroy {
               //on met les sessions à jour
               this.authService.sessions.libelle_prob = reponse.problematique_libelle;
               this.authService.sessions.id_prob = reponse.problematique_id;
-
-              console.log("C'est un succès !!");
-
               let dtExpire = new Date();
               dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
               //on met aussi les cookies à jour
@@ -891,6 +889,73 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.authService.setCookie('id_prob1', reponse.problematique_id, dtExpire, '/', null, null );
               this.problematique_libelle = reponse.problematique_libelle;
           }
+          return response;
+        },
+        (error) => {
+
+        });
+  }
+
+  //Ce service web permet d'assurer la synchronisation après le changement de mode d'anonymat
+  ConnexionSynchronizationAnonymat() {
+    const url_synchronization_anonymat = this.constance.dns.concat('/api/DisplayUserAnonymousState?user_id=').concat(String(this.authService.getSessions().id));
+    this.httpClient
+      .get(url_synchronization_anonymat)
+      .subscribe(
+        (response) => {
+          let reponse : any;
+          reponse = response;
+          const dtExpire = new Date();
+          dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
+          if (reponse.user_etat === 1) {
+            this.info_bulle = 'Cliquez ici pour désactiver le mode anonymous';
+            this.progressbaractivationmodeanonymous = 'none';
+            //this.openSnackBar('Votre mode anonymous est activer avec succes !', 'succes');
+            this.progressbaractivationmodeanonymous = 'none';
+            this.authService.sessions.etat = '1';
+            // this.etat = 1;
+            this.authService.sessions.nom = 'Anonyme';
+            this.authService.sessions.prenom = 'Utilisateur';
+            this.authService.sessions.photo = 'ic_profile_anonymous.png';
+            this.authService.setCookie('etat1', this.authService.sessions.etat, dtExpire, '/', null, null );
+            this.authService.setCookie('nom1', 'Anonyme', dtExpire, '/', null, null );
+            this.authService.setCookie('prenom1', 'Utilisateur', dtExpire, '/', null, null );
+            this.authService.setCookie('photo1', 'ic_profile_anonymous.png', dtExpire, '/', null, null );
+            this.photo_user = this.photo_user = this.constance.dns1.concat('/uploads/photo_de_profil/').concat('ic_profile_anonymous.png');
+            this.nom = 'Anonyme';
+            this.prenom = 'Utilisateur';
+            this.checked_active_mode_anonymous = true;
+            this.color_anonymous = 'warn';
+          } else if (reponse.user_etat === 0) {
+
+            this.info_bulle = 'Cliquez ici pour activer le mode anonymous';
+            this.progressbaractivationmodeanonymous = 'none';
+            //this.openSnackBar('Votre mode anonymous est desactiver avec succes !', 'succes');
+            this.progressbaractivationmodeanonymous = 'none';
+            this.authService.sessions.etat = '0';
+            this.authService.setCookie('etat1', this.authService.sessions.etat, dtExpire, '/', null, null );
+            this.authService.setCookie('nom1', reponse.nom, dtExpire, '/', null, null );
+            this.authService.setCookie('prenom1', reponse.prenom, dtExpire, '/', null, null );
+            this.authService.setCookie('photo1', reponse.photo, dtExpire, '/', null, null );
+            this.photo_user = this.photo_user = this.constance.dns1.concat('/uploads/photo_de_profil/').concat(reponse.photo);
+            this.nom = reponse.nom;
+            this.prenom = reponse.prenom;
+            //this.etat = 0;
+            this.authService.sessions.nom = reponse.nom;
+            this.authService.sessions.prenom = reponse.prenom;
+            this.authService.sessions.photo = reponse.photo;
+            //on contrôle le cas où il n'y a pas de photo
+            if (this.authService.getSessions().photo === '') {
+              this.photo_user = this.constance.dns1.concat('/uploads/photo_de_profil/').concat('ic_profile.png');
+            }
+            this.checked_active_mode_anonymous = false;
+            this.color_anonymous = 'white';
+          }
+
+
+
+
+
           return response;
         },
         (error) => {

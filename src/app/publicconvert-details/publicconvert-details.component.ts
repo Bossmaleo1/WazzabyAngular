@@ -80,6 +80,7 @@ export class PublicconvertDetailsComponent implements OnInit {
       this.booljaime = false;
       this.booljaimepas = false;
     }
+
     //on marque la notification comme lu
     if (this.publiccomments.notification_marqueur) {
       const urlmarquernotification = this.constance.dns.concat('/api/MarquerNotificationCommeLu?id_notification=')

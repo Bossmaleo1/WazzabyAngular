@@ -3,6 +3,7 @@ import {PublicCommentsServices} from '../Services/public.comments.services';
 import {NotificationService} from '../Services/notification.service';
 import {Router} from '@angular/router';
 import {ConstanceService} from '../Services/Constance.service';
+import {AuthService} from '../Services/auth.service';
 
 @Component({
   selector: 'app-notification-item',
@@ -26,14 +27,14 @@ export class NotificationItemComponent implements OnInit {
 
   constructor(private publiccomments: PublicCommentsServices
     , private  router: Router
+    ,private authService: AuthService
     , private constance: ConstanceService
     , private notificationService: NotificationService) { }
 
   ngOnInit() {
 
     //on test si l'utilisateur n'a pas de photo de profil
-    if(this.photo == this.constance.dns1.concat('/uploads/photo_de_profil/')) {
-      console.log("yes !!");
+    if (this.photo == this.constance.dns1.concat('/uploads/photo_de_profil/')) {
       this.photo = this.constance.dns1.concat('/uploads/photo_de_profil/ic_profile_colorier.png');
     }
 
@@ -47,9 +48,15 @@ export class NotificationItemComponent implements OnInit {
 
   RootTo() {
     this.publiccomments.id = this.notificationService.notifications[this.index].id_messagepublic;
-    this.publiccomments.name = this.notificationService.notifications[this.index].name_messagepublic;
+    if (this.prenom == 'Utilisateur' && this.nom =='Anonyme') {
+      this.publiccomments.name = "Utilisateur Anonyme "+ this.authService.getSessions().id;
+      this.publiccomments.user_photo = 'ic_profile_anonymous.png';
+    } else {
+      this.publiccomments.name = this.notificationService.notifications[this.index].name_messagepublic;
+      this.publiccomments.user_photo = this.notificationService.notifications[this.index].user_photo_messagepublic;
+    }
+
     this.publiccomments.updated = this.notificationService.notifications[this.index].updated_messagepublic;
-    this.publiccomments.user_photo = this.notificationService.notifications[this.index].user_photo_messagepublic;
     this.publiccomments.status_photo = this.notificationService.notifications[this.index].status_photo_messagepublic;
     this.publiccomments.status_text_content = this.notificationService.notifications[this.index].status_text_content_messagepublic;
     this.publiccomments.etat_photo_status = this.notificationService.notifications[this.index].etat_photo_status_messagepublic;

@@ -35,7 +35,6 @@ export class NotificationComponent implements OnInit {
       .subscribe(
         (response) => {
           this.notificationService.notifications = response;
-
           if (this.notificationService.notifications.length === 0) {
             this.notificationService.progressbarnotification = false;
             this.error_message = 'Vous avez aucune notification';
@@ -150,8 +149,6 @@ export class NotificationComponent implements OnInit {
             //on met les sessions à jour
             this.authService.sessions.libelle_prob = reponse.problematique_libelle;
             this.authService.sessions.id_prob = reponse.problematique_id;
-
-            console.log("C'est un succès !!");
 
             let dtExpire = new Date();
             dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
