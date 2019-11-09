@@ -24,5 +24,6 @@ export class PublicCommentsServices {
   libelle: any;
   date: any;
   comment_id: any;
+  pushkey_recepteur: any;
 
 }

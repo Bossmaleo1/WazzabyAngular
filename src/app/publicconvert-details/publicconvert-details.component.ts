@@ -6,7 +6,6 @@ import {PublicCommentsServices} from '../Services/public.comments.services';
 import {ConstanceService} from '../Services/Constance.service';
 import {HttpClient} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material';
-import {NgForm} from '@angular/forms';
 import {Location} from '@angular/common';
 import {NotificationService} from '../Services/notification.service';
 
@@ -204,6 +203,7 @@ export class PublicconvertDetailsComponent implements OnInit {
         .concat('&id_recepteur=').concat(String(this.publiccomments.id_recepteur))
         .concat('&anonymous=').concat(anonymous);
       this.recordNotification(url_notification);
+      this.ConnexionSendPushNotification();
     }
   }
 
@@ -408,6 +408,39 @@ export class PublicconvertDetailsComponent implements OnInit {
         }
       );
 
+  }
+
+
+  ConnexionSendPushNotification() {
+    let message;
+    if (this.authService.getSessions().etat === '1') {
+      message = "Votre message public vient d'etre commenter par un Utilisateur Anonyme";
+    } else {
+      message = "Votre message public vient d'etre commenter par "
+        .concat(this.authService.getSessions().prenom)
+        .concat(' ')
+        .concat(this.authService.getSessions().nom);
+    }
+
+    //On construit l'url de la pushnotification
+    const url_pushnotification = this.constance.dns1.concat('/Apifcm/apiFCMmessagerie.php?message=').concat(message).concat('&title=Wazzaby')
+      .concat('&regId=').concat(this.publiccomments.pushkey_recepteur);
+    //on fait appel à la méthode qui envoie la requête HTTP
+    this.SendPushNotification(url_pushnotification);
+  }
+
+
+  SendPushNotification(url: string) {
+    this.httpClient
+      .get(url)
+      .subscribe(
+        (response) => {
+          return response;
+        },
+        (error) => {
+
+        }
+      );
   }
 
 

@@ -34,6 +34,7 @@ export class PublicconvertComponent implements OnInit {
   @Input() id_checkmention: number;
   @Input() visibility: boolean;
   @Input() user_id: number;
+  @Input() pushkey_recepteur: string;
   photo: string;
   booljaime: boolean;
   booljaimepas: boolean;
@@ -96,6 +97,7 @@ export class PublicconvertComponent implements OnInit {
     this.publiccommentsservice.jaime = this.jaime;
     this.publiccommentsservice.jaimepas = this.jaimepas;
     this.publiccommentsservice.id_recepteur = this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur;
+    this.publiccommentsservice.pushkey_recepteur = this.publicconvert.conversationsPublics[this.indexOfConvert].pushkey_recepteur;
     this.router.navigate(['public-convert-details']);
   }
 
@@ -227,7 +229,7 @@ export class PublicconvertComponent implements OnInit {
         this.recordNotification(url_notification);
         this.recordNotification(pushnotification_url);
       }
-      console.log ("0 et 0");
+
     } else if (this.checkmention === 1) {
       const url = this.constance.dns.concat('/api/MentionsUpdate?id_etat=2')
         .concat('&id_mention=')
