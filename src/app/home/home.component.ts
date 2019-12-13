@@ -228,6 +228,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.ConnexionSynchronizationProblematique();
     //on lance la synchronization du mode anonymous
     this.ConnexionSynchronizationAnonymat();
+
+    //on test si le mode dark est activé ou pas
+    if (String(this.authService.getCookie('darkmode1')) == '0') {
+      this.constance.primary_color = '#448AFF';
+      this.constance.backgroundcolor = '#F5F5F5';
+    } else if (String(this.authService.getCookie('darkmode1')) == '1') {
+      this.constance.primary_color = '#424242';
+      this.constance.backgroundcolor = '#212121';
+    }
   }
 
   getColor(etat: boolean) {

@@ -1,8 +1,8 @@
-<mat-card class="example-card" *ngIf="visibility">
+<mat-card class="example-card" *ngIf="visibility" [ngStyle]="{'background-color':this.constance.cardview_background,'color':this.constance.cardview_textcolor}" >
   <mat-card-header>
     <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url('+photo+')'}" ></div>
     <mat-card-title>{{name}}</mat-card-title>
-    <mat-card-subtitle>{{updated}}</mat-card-subtitle>
+    <mat-card-subtitle [ngStyle]="{'color':this.constance.cardview_textcolor}">{{updated}}</mat-card-subtitle>
   </mat-card-header>
   <img mat-card-image  src="{{status_photo}}" alt="Photo of message public" [ngStyle]="{'display':''+etat_photo_status+''}">
   <mat-card-content>
@@ -20,7 +20,7 @@
       <div class="item item-1" fxFlex="40%">
         <button mat-button (click)="OnLaunchIntervention()" matTooltip="Cliquez ici pour commenter">
           <mat-icon id="icon-color">add_comment</mat-icon>
-          <span> {{countcomment}} Intervention</span>
+          <span id="icon-color"> {{countcomment}} Intervention</span>
         </button>
       </div>
       <div class="item item-2" fxFlex="20%">

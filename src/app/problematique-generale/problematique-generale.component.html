@@ -1,4 +1,5 @@
-<mat-toolbar color="primary" class="block-toolbar">
+<div class="block-problematique" [ngStyle]="{'background-color':this.constance.backgroundcolor}">
+<mat-toolbar color="primary" class="block-toolbar" [ngStyle]="{'background-color':this.constance.primary_color,'color':this.constance.text_color}">
 
   <button mat-icon-button  (click)="OnBack()" *ngIf="this.authService.etat_problematique">
     <mat-icon>arrow_back</mat-icon>
@@ -129,7 +130,7 @@
     </div>
 
     <br/><br/>
-    <mat-card class="example-card" *ngIf="!this.problematiqueitemservice.afficher_spinner_probgen">
+    <mat-card class="example-card" *ngIf="!this.problematiqueitemservice.afficher_spinner_probgen"  [ngStyle]="{'background-color':this.constance.cardview_background,'color':this.constance.cardview_textcolor}">
 
       <mat-card-content (click)="Reactualize()" *ngIf="this.problematiqueitemservice.afficher_network_error">
         <p id="textstyle"><mat-icon class="block-error-message">block</mat-icon><span class="block-error-message"> une erreur réseau vient de survenir</span></p>
@@ -149,4 +150,5 @@
 
     </mat-card>
   </div>
+</div>
 </div>

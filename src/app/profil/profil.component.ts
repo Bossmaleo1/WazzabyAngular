@@ -44,15 +44,19 @@ export class ProfilComponent implements OnInit {
     }
 
     //on test si le mode dark est activé ou pas
-    /*if (String(this.authService.getCookie('darkmode1')) == '0') {
+    if (String(this.authService.getCookie('darkmode1')) == '0') {
       this.checked_active_dark_mode = false;
       this.color_dark_mode = 'white';
       this.constance.primary_color = '#448AFF';
+      this.constance.backgroundcolor = '#F5F5F5';
     } else if (String(this.authService.getCookie('darkmode1')) == '1') {
       this.checked_active_dark_mode = true;
       this.color_dark_mode = 'warn';
-      this.constance.primary_color = '#000000';
-    }*/
+      this.constance.primary_color = '#424242';
+      this.constance.backgroundcolor = '#212121';
+      this.constance.cardview_background = '#424242';
+      this.constance.cardview_textcolor = 'white';
+    }
   }
 
   OnBack() {

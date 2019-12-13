@@ -19,7 +19,11 @@ export class ConstanceService {
   //les variables pour la gestion de changements d'images utilisateurs
   disabled_example_card: boolean = true;
 
-  primary_color:string = '#448AFF';
+  backgroundcolor: string = '#F5F5F5';
+  primary_color: string = '#448AFF';
+  text_color: string = 'white';
+  cardview_background: string = 'white';
+  cardview_textcolor: string = '#212121';
 
   getDNS() {return this.dns;
   }

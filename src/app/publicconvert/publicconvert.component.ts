@@ -75,6 +75,18 @@ export class PublicconvertComponent implements OnInit {
     } else {
       this.test_user_root = false;
     }
+
+    //on test si le mode dark est activé ou pas
+    if (String(this.authService.getCookie('darkmode1')) == '0') {
+      this.constance.primary_color = '#448AFF';
+      this.constance.backgroundcolor = '#F5F5F5';
+      this.constance.cardview_textcolor = '##212121';
+    } else if (String(this.authService.getCookie('darkmode1')) == '1') {
+      this.constance.primary_color = '#424242';
+      this.constance.backgroundcolor = '#212121';
+      this.constance.cardview_textcolor = 'white';
+      this.constance.cardview_background = '#424242';
+    }
   }
 
   openSnackBar(message: string, action: string) {

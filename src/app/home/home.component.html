@@ -1,8 +1,10 @@
+
+
 <div id='block_spinner'>
   <mat-spinner *ngIf="afficher_spinner"  class="progressbar"></mat-spinner>
 </div>
 
-<mat-toolbar color="primary" class="block-toolbar1" *ngIf="!afficher_spinner">
+<mat-toolbar color="primary" class="block-toolbar1" *ngIf="!afficher_spinner" [ngStyle]="{'background-color':this.constance.primary_color,'color':this.constance.text_color}" >
   <div matRipple class="icon-block" (click)="OnProfil()" matTooltip="Cliquez ici pour consulter votre profil">
     <img  id="icon" src="{{photo_user}}"/>
   </div>
@@ -43,7 +45,7 @@
   </mat-menu>
 </mat-toolbar>
 
-<mat-toolbar color="primary" class="block-toolbar2" *ngIf="!afficher_spinner">
+<mat-toolbar color="primary" class="block-toolbar2" *ngIf="!afficher_spinner" [ngStyle]="{'background-color':this.constance.primary_color,'color':this.constance.text_color}" >
   <div>
     <button mat-button (click)="OnclickProblematique()"
             matTooltip="Cliquez ici pour changer de problematique"
@@ -60,6 +62,7 @@
   </mat-slide-toggle>
 </mat-toolbar>
 
+<div class="background-home" [ngStyle]="{'background-color':this.constance.backgroundcolor}">
 <mat-tab-group (selectedTabChange)="onLinkClick($event)" class="block-tabs" *ngIf="!afficher_spinner">
   <mat-tab>
     <ng-template  mat-tab-label >
@@ -488,4 +491,5 @@
   </div>
 </div>
 
+</div>
 
