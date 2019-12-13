@@ -85,6 +85,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   /*afficher_spinner_progressbar: string = 'none';
   afficher_block_homepage: string = 'inline-block';*/
   checked_active_mode_anonymous = false;
+  // tslint:disable-next-line:variable-name
   color_anonymous = 'white';
   display_emoji = false;
 

@@ -7,7 +7,7 @@ export class ConstanceService {
   dns = 'http://localhost:8000';
   dns1 = 'http://localhost';
 
-/*  dns = 'http://wazzaby.com/WazzabyApi/public';
+  /*dns = 'http://wazzaby.com/WazzabyApi/public';
   dns1 = 'http://wazzaby.com';*/
   ///WazzabyApi/public
   name_file: any;
@@ -18,6 +18,8 @@ export class ConstanceService {
 
   //les variables pour la gestion de changements d'images utilisateurs
   disabled_example_card: boolean = true;
+
+  primary_color:string = '#448AFF';
 
   getDNS() {return this.dns;
   }

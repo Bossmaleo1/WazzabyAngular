@@ -143,7 +143,8 @@ export class ProblematiqueItemComponent implements OnInit {
           this.openSnackBar("Votre problematique vient d'etre avec succes", 'succes');
           this.authService.etat_problematique = true;
           this.problematiqueitemservice.afficher_spinner_after_changed_prob = false;
-          this.router.navigate(['connexion']);
+          //this.router.navigate(['connexion']);
+          document.location.href = 'http://localhost:4200/';/*this.constance.dns1;*/
         },
         (error) => {
           this.problematiqueitemservice.afficher_spinner_after_changed_prob = false;

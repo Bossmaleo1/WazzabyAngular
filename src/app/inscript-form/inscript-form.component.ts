@@ -97,7 +97,7 @@ export class InscriptFormComponent implements OnInit {
       this.error_email = "Votre email est incorrect !!";
     }
 
-    if(this.afficher_code === false && email_boolean ===true)
+    if (this.afficher_code === false && email_boolean ===true)
     {
       //on lance la requête http pour vérifier la disponibilité de cette adresse email
       const url_email = this.constance.dns.concat('/api/VerificationEmail?email=').concat(formValue['email']);
@@ -123,6 +123,7 @@ export class InscriptFormComponent implements OnInit {
                   (response) => {
                     this.afficher_code = !this.afficher_code;
                     this.firstform1 = response;
+                    console.log(this.firstform1.succes);
                     this.disparaitreprogressbar = 'none';
                     this.disparaitreallblock = 'block';
                   },
@@ -275,7 +276,7 @@ export class InscriptFormComponent implements OnInit {
                   this.authService.isAuth = true;
                   this.authService.isAuth = true;
                   this.constance.test_updatecachephoto = 3;
-                  this.router.navigate(['profil']);
+                  this.router.navigate(['problematique']);
                   //this.constance.test_updatecachephoto = 3;
 
                 },
@@ -294,56 +295,6 @@ export class InscriptFormComponent implements OnInit {
           }
         );
     }
-
-    /*this.disparaitreprogressbar = 'block';
-    this.disparaitreallblock = 'none';
-    const date = new Date(this.datedenaissance);
-    const moi = +date.getMonth() + 1;
-    const jour = date.getDate();
-    const annee = +date.getFullYear();
-    const anneefinale = annee.toString().concat('-').concat(moi.toString()).concat('-').concat(jour.toString());
-    const url = this.constance.dns.concat('/WazzabyApi/public/api/insertUsers?email=').concat(this.firstform1.email).concat('&codedevalidation=').concat(this.firstform1.succes).concat('&nom=').concat(this.nom).concat('&prenom=').concat(this.prenom).concat('&sexe=').concat(this.sexe).concat('&password=').concat(this.password).concat('&date=').concat(anneefinale);
-    this.httpClient
-      .get(url)
-      .subscribe(
-        (response) => {
-          this.authService.sessions = response;
-          this.authService.sessions.email = this.firstform1.email;
-          console.log(this.password);
-          this.authService.sessions.password = this.password;
-          this.constance.test_updatecachephoto = 3;
-          this.openSnackBar(" Votre Inscription s'est effectuee avec succes ! ", 'succes');
-          const url1 = this.constance.dns.concat('/WazzabyApiOthers/send_welcome_mail.php?email=').concat(this.firstform1.email).concat('&password=').concat(this.password).concat('&nom=').concat(this.nom).concat('&prenom=').concat(this.prenom).concat('&sexe=').concat(this.sexe);
-          this.httpClient
-            .get(url1)
-            .subscribe(
-              (response1) => {
-                this.afficher_code = !this.afficher_code;
-                this.authService.isAuth = true;
-                this.authService.isAuth = true;
-                this.constance.test_updatecachephoto = 3;
-                //this.constance.test_updatecachephoto = 3;
-                this.router.navigate(['welcome']);
-
-              },
-              (error) => {
-                this.openSnackBar(" Une erreur serveur vient de se produire ! ", 'erreur');
-                this.disparaitreprogressbar = 'none';
-                this.disparaitreallblock = 'block';
-              }
-
-            );
-
-
-
-        },
-        (error) => {
-          this.disparaitreprogressbar = 'none';
-          this.disparaitreallblock = 'block';
-          this.openSnackBar('Une erreur serveur vient de se produire', 'erreur');
-        }
-      );*/
-
 
   }
 

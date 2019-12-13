@@ -69,7 +69,6 @@ const appRoutes: Routes = [
   {path: 'inscript', component: InscriptFormComponent},
   {path: 'connexion', component: ConnexionComponent},
   {path: 'welcome', canActivate: [AuthGuardService], component: WelcomeToWazzabyComponent},
-  //{path: 'welcome', component: WelcomeToWazzabyComponent},
   {path: 'history', canActivate: [AuthGuardService], component: HistoryComponent},
   {path: '', component: ConnexionComponent},
   {path: 'not-found', component: NotFoundComponent},

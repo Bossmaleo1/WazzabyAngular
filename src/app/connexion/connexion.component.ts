@@ -106,6 +106,7 @@ export class ConnexionComponent implements OnInit {
             this.authService.setCookie('ville1', this.authService.sessions.ville, dtExpire, '/', null, null );
             this.authService.setCookie('online1', this.authService.sessions.online, dtExpire, '/', null, null );
             this.authService.setCookie('etat1', this.authService.sessions.etat, dtExpire, '/', null, null );
+            this.authService.setCookie('darkmode1', 0, dtExpire, '/', null, null );
             if (this.authService.sessions.etat === '1') {
               this.authService.sessions.nom = 'Anonyme';
               this.authService.sessions.prenom = 'Utilisateur';

@@ -1,4 +1,5 @@
-<mat-toolbar color="primary" class="block-toolbar">
+
+<mat-toolbar color="primary"   class="block-toolbar">
 
   <button mat-icon-button  (click)="OnBack()"  matTooltip="{{tooltip_title}}">
     <mat-icon>{{icon_libelle}}</mat-icon>
@@ -36,10 +37,30 @@
       <mat-card class="example-card" *ngIf="this.constance.disabled_example_card" (click)="RootToProb()">
         <mat-icon color="primary" class="vertical_middle_align">subject</mat-icon>
         <span class="vertical_middle_align"> {{this.authService.getSessions().libelle_prob}}  </span>
-        <mat-icon color="primary" class="vertical_middle_align horizontal-align_right">edit</mat-icon>
       </mat-card>
+
+      <br/>
+      <mat-card class="example-card" >
+        <mat-icon color="primary" class="vertical_middle_align">translate</mat-icon>
+        <span class="vertical_middle_align">Français</span>
+      </mat-card>
+
+      <br/>
+      <mat-card class="example-card" >
+        <mat-icon color="primary" class="vertical_middle_align">brightness_3</mat-icon>
+        <span class="vertical_middle_align"> Mode Nuit </span>
+
+        <mat-slide-toggle matTooltip="{{info_bulle_dark_mode}}"
+                          (change)="DarkMode($event)"
+                          [checked]="this.checked_active_dark_mode"
+                          [color]="this.color_dark_mode" class="vertical_middle_align horizontal-align_right">
+        </mat-slide-toggle>
+
+      </mat-card>
+
 
     </div>
   </div>
 
 </section>
+
