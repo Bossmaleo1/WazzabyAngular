@@ -8,7 +8,7 @@
 
 </mat-toolbar>
 
-<br/><br/><br/><br/>
+<br/>
 <div class="container"
      fxLayout
      fxLayout.xs="column"
@@ -21,13 +21,14 @@
     <!--div class="error_message" *ngIf="display_error_message">{{error_message}}</div-->
     <div class="error-message" *ngIf="display_error_message" (click)="Reactualise()">
       <br/>
-      <mat-card class="card-error-message">
+      <mat-card class="card-error-message" [ngStyle]="{'background-color':this.constance.background_message_error}">
         <mat-card-content>
           <p><mat-icon class="block-error-message">block</mat-icon><span class="block-error-message"> {{this.error_message}}</span></p>
         </mat-card-content>
       </mat-card>
     </div>
-    <section>
+    <section class="overflow-section" [ngStyle]="{'background-color':this.constance.backgroundcolor}">
+
       <app-notification-item  *ngFor="let notification of this.notificationslist; let i = index"
                               [index] = "i"
                               [nom] = "notification.nom"
@@ -42,6 +43,7 @@
                               [etat] = "notification.etat"
                               [hide_done_icon]="true"
       ></app-notification-item>
+
     </section>
     <div class="timeline-wrapper" *ngIf="this.notificationService.progressbarnotification">
       <div class="timeline-item">

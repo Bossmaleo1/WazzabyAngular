@@ -90,6 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   display_emoji = false;
 
 
+
   constructor(private homedesign: HomeDesignService
     ,         private  router: Router
     ,         private authService: AuthService
@@ -233,9 +234,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (String(this.authService.getCookie('darkmode1')) == '0') {
       this.constance.primary_color = '#448AFF';
       this.constance.backgroundcolor = '#F5F5F5';
+      this.constance.background_message_error = 'white';
+      this.constance.background_dialog_message_public_edit = 'white';
+      this.constance.text_color_dialog_message_public = '#212121';
     } else if (String(this.authService.getCookie('darkmode1')) == '1') {
       this.constance.primary_color = '#424242';
       this.constance.backgroundcolor = '#212121';
+      this.constance.background_message_error = '#424242';
+      this.constance.background_dialog_message_public_edit = '#424242';
+      this.constance.text_color_dialog_message_public = 'white';
+      this.constance.background_menu_item_home_dark_mode = '#424242';
     }
   }
 
@@ -480,52 +488,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
           );
       }
-    /*}*/ /*else if (this.updateservice.libelle_photo === 'MODIFIER') {
-      const libellemessagepublic = this.updateservice.libellemessagepublic;
-      this.updateservice.disparaitrechamp = 'none';
-      this.updateservice.disparaitreimage = 'none';
-      this.updateservice.disparaitreprogressbar = 'block';
-      const url = this.constance.dns.concat('/api/UpdateMessagePublic?ID=')
-        .concat(this.authService.getSessions().id)
-        .concat('&id_problematique=').concat(this.authService.getSessions().id_prob)
-        .concat('&id_message_public=').concat(String(this.updateservice.id_message_public))
-        .concat('&photo=2')
-        .concat('&libelle=').concat(libellemessagepublic);
-      this.httpClient
-        .get(url)
-        .subscribe(
-          (response1) => {
-            this.constance.messagepublicobject = response1;
-            this.updateservice.disparaitrechamp = 'block';
-            this.updateservice.disparaitreimage = 'none';
-            this.updateservice.libellemessagepublic = null;
-            this.updateservice.disparaitreprogressbar = 'none';
-            this.updateservice.block_boite_de_dialogue = 'none';
-            const nom_du_user = ''.concat(this.authService.sessions.prenom).concat(' ').concat(this.authService.sessions.nom);
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].etat_photo_status =  this.constance.messagepublicobject.etat_photo_status;
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].id = this.constance.messagepublicobject.id;
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].name = nom_du_user;
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].status_text_content = libellemessagepublic;
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].status_photo = this.constance.messagepublicobject.status_photo;
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].updated = this.constance.messagepublicobject.updated;
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].user_id = this.authService.sessions.id;
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].user_photo = this.authService.getSessions().photo;
-            this.publicconvertservice.conversationsPublics[this.updateservice.indexOf].visibility = true;
-            this.updateservice.disparaitreimage = 'none';
-            this.publicmessages = this.publicconvertservice.conversationsPublics;
-            this.openSnackBar('Votre modification s\'est effectuee avec succes !!', 'succes');
-
-            return response1;
-          },
-          (error) => {
-            this.updateservice.disparaitrechamp = 'block';
-            this.updateservice.disparaitreimage = 'block';
-            this.updateservice.disparaitreprogressbar = 'none';
-            this.openSnackBar('Une erreur serveur vient de se produire', 'erreur');
-          }
-        );
-
-    }*/
 
   }
 

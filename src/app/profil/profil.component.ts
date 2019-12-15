@@ -43,20 +43,7 @@ export class ProfilComponent implements OnInit {
       this.tooltip_title = 'Passer à l\'étape suivante ?';
     }
 
-    //on test si le mode dark est activé ou pas
-    if (String(this.authService.getCookie('darkmode1')) == '0') {
-      this.checked_active_dark_mode = false;
-      this.color_dark_mode = 'white';
-      this.constance.primary_color = '#448AFF';
-      this.constance.backgroundcolor = '#F5F5F5';
-    } else if (String(this.authService.getCookie('darkmode1')) == '1') {
-      this.checked_active_dark_mode = true;
-      this.color_dark_mode = 'warn';
-      this.constance.primary_color = '#424242';
-      this.constance.backgroundcolor = '#212121';
-      this.constance.cardview_background = '#424242';
-      this.constance.cardview_textcolor = 'white';
-    }
+    this.ChangeModeTheme();
   }
 
   OnBack() {
@@ -111,13 +98,50 @@ export class ProfilComponent implements OnInit {
     if (event.checked) {
       this.info_bulle_dark_mode = 'Cliquez ici pour désactiver le dark mode';
       this.color_dark_mode = 'warn';
+      this.ThemeDark();
       this.authService.setCookie('darkmode1', 1, dtExpire, '/', null, null );
     } else {
       this.info_bulle_dark_mode = 'Cliquez ici pour activer le dark mode';
       this.color_dark_mode = 'white';
       this.authService.setCookie('darkmode1', 0, dtExpire, '/', null, null );
+      this.ThemeLight();
     }
 
+  }
+
+
+  ChangeModeTheme() {
+    //on test si le mode dark est activé ou pas
+    if (String(this.authService.getCookie('darkmode1')) == '0') {
+      this.checked_active_dark_mode = false;
+      this.color_dark_mode = 'white';
+      this.ThemeLight();
+      console.log("Dark Mode Light !!");
+    } else if (String(this.authService.getCookie('darkmode1')) == '1') {
+      this.checked_active_dark_mode = true;
+      this.color_dark_mode = 'warn';
+      this.ThemeDark();
+      console.log("Dark Mode Dark !!");
+    }
+  }
+
+  ThemeLight() {
+    this.constance.primary_color = '#448AFF';
+    this.constance.backgroundcolor = '#F5F5F5';
+    this.constance.background_message_error = 'white';
+    this.constance.background_dialog_message_public_edit = 'white';
+    this.constance.text_color_dialog_message_public = '#212121';
+  }
+
+  ThemeDark() {
+    this.constance.primary_color = '#424242';
+    this.constance.backgroundcolor = '#212121';
+    this.constance.cardview_background = '#424242';
+    this.constance.cardview_textcolor = 'white';
+    this.constance.background_message_error = '#424242';
+    this.constance.background_dialog_message_public_edit = '#424242';
+    this.constance.text_color_dialog_message_public = 'white';
+    this.constance.background_menu_item_home_dark_mode = '#424242';
   }
 
 }

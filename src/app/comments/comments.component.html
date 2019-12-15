@@ -1,10 +1,10 @@
-<mat-card class="example-card-comment">
+<mat-card class="example-card-comment" [ngStyle]="{'background-color':this.constance.cardview_background,'color':this.constance.cardview_textcolor}">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image-comment" [ngStyle]="{'background-image': 'url('+user_photo+')'}" ></div>
-    <mat-card-title>{{name}}</mat-card-title>
-    <mat-card-subtitle>{{updated}}</mat-card-subtitle>
+    <mat-card-title [ngStyle]="{'color':this.constance.cardview_textcolor}">{{name}}</mat-card-title>
+    <mat-card-subtitle [ngStyle]="{'color':this.constance.cardview_textcolor}">{{updated}}</mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content [ngStyle]="{'color':this.constance.cardview_textcolor}">
     <p>{{status_text_content}}</p>
   </mat-card-content>
   <mat-divider></mat-divider>

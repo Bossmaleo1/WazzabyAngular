@@ -1,4 +1,5 @@
-<mat-toolbar color="primary" class="block-toolbar">
+<div class="block-publicconvert-details" [ngStyle]="{'background-color':this.constance.backgroundcolor}">
+<mat-toolbar color="primary" class="block-toolbar" [ngStyle]="{'background-color':this.constance.primary_color,'color':this.constance.text_color}">
 
   <button mat-icon-button  (click)="OnBack()">
     <mat-icon>arrow_back</mat-icon>
@@ -27,11 +28,11 @@
     <div class="item item-3" fxFlex="60%">
 
 
-      <mat-card class="example-card">
+      <mat-card class="example-card" [ngStyle]="{'background-color':this.constance.cardview_background,'color':this.constance.cardview_textcolor}">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url('+user_photo+')'}" ></div>
-          <mat-card-title>{{name}}</mat-card-title>
-          <mat-card-subtitle>{{updated}}</mat-card-subtitle>
+          <mat-card-title [ngStyle]="{'color':this.constance.cardview_textcolor}">{{name}}</mat-card-title>
+          <mat-card-subtitle [ngStyle]="{'color':this.constance.cardview_textcolor}">{{updated}}</mat-card-subtitle>
         </mat-card-header>
         <img mat-card-image  src="{{status_photo}}" alt="Photo of a Shiba Inu" [ngStyle]="{'display':''+etat_photo_status+''}">
         <mat-card-content>
@@ -172,3 +173,4 @@
 
 </section>
 <br/><br/><br/>
+</div>

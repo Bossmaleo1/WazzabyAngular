@@ -42,19 +42,19 @@
 
         <mat-menu #menu="matMenu">
 
-          <button mat-menu-item *ngIf="test_user_root" (click)="displayupdateDialog()" disabled [ngStyle]="{'color':'#E0E0E0'}">
-            <mat-icon [ngStyle]="{'color':'#E0E0E0'}">edit</mat-icon>
-            <span>Modifier ce poste</span>
+          <button mat-menu-item *ngIf="test_user_root" (click)="displayupdateDialog()" disabled [ngStyle]="{'background-color':this.constance.background_menu_item_home_dark_mode}">
+            <mat-icon [ngStyle]="{'color':this.constance.icon_dark_mode_color}">edit</mat-icon>
+            <span [ngStyle]="{'color':this.constance.icon_dark_mode_color}">Modifier ce poste</span>
           </button>
 
-          <button mat-menu-item *ngIf="test_user_root" (click)="displaydeleteDialog()">
-            <mat-icon id="icon-color">delete</mat-icon>
-            <span>Supprimer ce poste</span>
+          <button mat-menu-item *ngIf="test_user_root" (click)="displaydeleteDialog()" [ngStyle]="{'background-color':this.constance.background_menu_item_home_dark_mode}">
+            <mat-icon id="icon-color" [ngStyle]="{'color':this.constance.icon_dark_mode_color}">delete</mat-icon>
+            <span [ngStyle]="{'color':this.constance.icon_dark_mode_color}">Supprimer ce poste</span>
           </button>
 
-          <button mat-menu-item *ngIf="!test_user_root" disabled [ngStyle]="{'color':'#E0E0E0'}">
-            <mat-icon  [ngStyle]="{'color':'#E0E0E0'}">flag</mat-icon>
-            <span>Signaler un probleme</span>
+          <button mat-menu-item *ngIf="!test_user_root" disabled [ngStyle]="{'background-color':this.constance.background_menu_item_home_dark_mode}">
+            <mat-icon  [ngStyle]="{'color':this.constance.icon_dark_mode_color}">flag</mat-icon>
+            <span [ngStyle]="{'color':this.constance.icon_dark_mode_color}">Signaler un probleme</span>
           </button>
 
         </mat-menu>

@@ -1,7 +1,8 @@
+<div class="block-problematique" [ngStyle]="{'background-color':this.constance.backgroundcolor}">
 <div id='block_spinner'><mat-spinner *ngIf="this.problematiqueitemservice.afficher_spinner"  class="progressbar"></mat-spinner></div>
 
 
-<mat-toolbar color="primary" class="block-toolbar" *ngIf="!this.problematiqueitemservice.afficher_spinner">
+<mat-toolbar color="primary" class="block-toolbar" *ngIf="!this.problematiqueitemservice.afficher_spinner" [ngStyle]="{'background-color':this.constance.primary_color,'color':this.constance.text_color}">
 
   <button mat-icon-button  (click)="OnBack()">
     <mat-icon>arrow_back</mat-icon>
@@ -131,7 +132,7 @@
     </div>
 
     <br/><br/>
-    <mat-card class="example-card" *ngIf="this.problematiqueitemservice.afficher_block_problematique">
+    <mat-card class="example-card" *ngIf="this.problematiqueitemservice.afficher_block_problematique" [ngStyle]="{'background-color':this.constance.cardview_background,'color':this.constance.cardview_textcolor}" >
 
       <mat-form-field class="example-full-width-search-form">
         <input (keyup)="onSearchProb($event)"  [(ngModel)]="libelle_catprob" matInput placeholder="Rechercher" type="text"/>
@@ -147,4 +148,4 @@
     </mat-card>
   </div>
 </div>
-
+</div>

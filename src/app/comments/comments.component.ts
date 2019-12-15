@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PublicCommentsServices} from '../Services/public.comments.services';
+import {ConstanceService} from '../Services/Constance.service';
 
 @Component({
   selector: 'app-comments',
@@ -15,7 +16,8 @@ export class CommentsComponent implements OnInit {
   @Input() status_text_content: string;
   @Input() indexOfConvert: number;
 
-  constructor(private publiccomments: PublicCommentsServices) { }
+  constructor(private publiccomments: PublicCommentsServices
+              , private constance: ConstanceService) { }
 
   ngOnInit() {
   }

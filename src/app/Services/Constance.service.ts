@@ -25,6 +25,13 @@ export class ConstanceService {
   cardview_background: string = 'white';
   cardview_textcolor: string = '#212121';
 
+  background_message_error: string = 'white';
+
+  background_dialog_message_public_edit: string = 'white';
+  text_color_dialog_message_public = '#212121';
+  icon_dark_mode_color: string = 'white';
+  background_menu_item_home_dark_mode : string = 'white';
+
   getDNS() {return this.dns;
   }
 
