@@ -31,7 +31,7 @@ export class ProblematiqueItemComponent implements OnInit {
     console.log(this.id);
     console.log(this.name);*/
 
-
+    this.problematiqueitemservice.afficher_spinner_after_changed_prob = false;
 
     //console.log(this.problematiqueitemservice.Libelle);
     this.icon = 'subject';
@@ -142,9 +142,9 @@ export class ProblematiqueItemComponent implements OnInit {
           this.problematiqueitemservice.afficher_spinner_probgen = false;
           this.openSnackBar("Votre problematique vient d'etre avec succes", 'succes');
           this.authService.etat_problematique = true;
-          this.problematiqueitemservice.afficher_spinner_after_changed_prob = false;
+          //this.problematiqueitemservice.afficher_spinner_after_changed_prob = true;
           //this.router.navigate(['connexion']);
-          document.location.href = 'http://localhost:4200/';/*this.constance.dns1;*/
+          document.location.href = this.constance.dns1;
         },
         (error) => {
           this.problematiqueitemservice.afficher_spinner_after_changed_prob = false;

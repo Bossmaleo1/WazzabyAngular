@@ -424,7 +424,12 @@ export class PublicconvertDetailsComponent implements OnInit {
 
     //On construit l'url de la pushnotification
     const url_pushnotification = this.constance.dns1.concat('/Apifcm/apiFCMmessagerie.php?message=').concat(message).concat('&title=Wazzaby')
-      .concat('&regId=').concat(this.publiccomments.pushkey_recepteur);
+      .concat('&regId=').concat(this.publiccomments.pushkey_recepteur)
+      .concat('&phoro=').concat(this.authService.getCookie('photo1'))
+      .concat('&name=').concat(this.authService.getCookie('prenom1')).concat(' ').concat(this.authService.getCookie('nom1'))
+      .concat('&succes=0')
+      .concat('&nom=Wazzaby')
+      .concat('&ID=').concat(this.authService.getCookie('id1'));
     //on fait appel à la méthode qui envoie la requête HTTP
     this.SendPushNotification(url_pushnotification);
   }

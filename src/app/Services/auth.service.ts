@@ -27,6 +27,7 @@ export class AuthService {
     this.setCookie('ville1', '', dtExpireDel, '/', null, null );
     this.setCookie('photo1', '', dtExpireDel, '/', null, null );
     this.setCookie('online1', '', dtExpireDel, '/', null, null );
+    this.setCookie('darkmode1', 0, dtExpireDel, '/', null, null );
   }
 
   getSessions() {

@@ -237,6 +237,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.constance.background_message_error = 'white';
       this.constance.background_dialog_message_public_edit = 'white';
       this.constance.text_color_dialog_message_public = '#212121';
+      this.constance.background_menu_item_home_dark_mode = '#';
+      this.constance.icon_dark_mode_color = '#424242';
     } else if (String(this.authService.getCookie('darkmode1')) == '1') {
       this.constance.primary_color = '#424242';
       this.constance.backgroundcolor = '#212121';
@@ -244,7 +246,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.constance.background_dialog_message_public_edit = '#424242';
       this.constance.text_color_dialog_message_public = 'white';
       this.constance.background_menu_item_home_dark_mode = '#424242';
+      this.constance.icon_dark_mode_color = 'white';
+      /*this.constance.background_menu_item_home_dark_mode = 'white';
+      this.constance.icon_dark_mode_color = 'white';*/
     }
+
+   /* var userLang = navigator.language || navigator.userLanguage;
+    alert ("The language is: " + userLang);*/
+
   }
 
   getColor(etat: boolean) {

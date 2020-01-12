@@ -131,6 +131,8 @@ export class ProfilComponent implements OnInit {
     this.constance.background_message_error = 'white';
     this.constance.background_dialog_message_public_edit = 'white';
     this.constance.text_color_dialog_message_public = '#212121';
+
+    this.constance.cardview_background = 'white';
   }
 
   ThemeDark() {

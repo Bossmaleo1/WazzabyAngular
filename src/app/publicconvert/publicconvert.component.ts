@@ -87,6 +87,10 @@ export class PublicconvertComponent implements OnInit {
       this.constance.cardview_textcolor = 'white';
       this.constance.cardview_background = '#424242';
     }
+
+    /*console.log("Prénom : "+this.authService.getCookie("prenom1"));
+    console.log("Nom : "+this.authService.getCookie("nom1"));
+    console.log("Photo : "+this.authService.getCookie("photo1"));*/
   }
 
   openSnackBar(message: string, action: string) {
@@ -133,7 +137,12 @@ export class PublicconvertComponent implements OnInit {
       .concat('&id_recepteur=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur)
       .concat('&anonymous=').concat(anonymous);
     const pushnotification_url = this.constance.dns1.concat('/Apifcm/apiFCMmessagerie.php?message=').concat(message).concat('&title=Wazzaby')
-      .concat('&regId=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].pushkey_recepteur);
+      .concat('&regId=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].pushkey_recepteur)
+      .concat('&phoro=').concat(this.authService.getCookie('photo1'))
+      .concat('&name=').concat(this.authService.getCookie('prenom1')).concat(' ').concat(this.authService.getCookie('nom1'))
+      .concat('&succes=0')
+      .concat('&nom=Wazzaby')
+      .concat('&ID=').concat(this.authService.getCookie('id1'));
     if (this.checkmention === 1 ) {
       const url = this.constance.dns.concat('/api/MentionsUpdate?id_etat=0')
         .concat('&id_mention=')
@@ -206,8 +215,17 @@ export class PublicconvertComponent implements OnInit {
       .concat('&id_recepteur=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].id_recepteur)
       .concat('&anonymous=').concat(anonymous);
 
+    /*console.log("Prénom : "+this.authService.getCookie("prenom1"));
+    console.log("Nom : "+this.authService.getCookie("nom1"));
+    console.log("Photo : "+this.authService.getCookie("photo1"));*/
+
     const pushnotification_url = this.constance.dns1.concat('/Apifcm/apiFCMmessagerie.php?message=').concat(message).concat('&title=Wazzaby')
-      .concat('&regId=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].pushkey_recepteur);
+      .concat('&regId=').concat(this.publicconvert.conversationsPublics[this.indexOfConvert].pushkey_recepteur)
+      .concat('&phoro=').concat(this.authService.getCookie('photo1'))
+      .concat('&name=').concat(this.authService.getCookie('prenom1')).concat(' ').concat(this.authService.getCookie('nom1'))
+      .concat('&succes=0')
+      .concat('&nom=Wazzaby')
+      .concat('&ID=').concat(this.authService.getCookie('id1'));
     if (this.checkmention === 2) {
       const url = this.constance.dns.concat('/api/MentionsUpdate?id_etat=0')
         .concat('&id_mention=').concat(String(this.publicconvert.conversationsPublics[this.indexOfConvert].id_checkmention));
