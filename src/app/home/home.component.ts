@@ -9,18 +9,15 @@ import {HttpClient} from '@angular/common/http';
 import {FormBuilder} from '@angular/forms';
 import {ConstanceService} from '../Services/Constance.service';
 import {MessagePublic} from '../models/MessagePublic.model';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {MessagepublicService} from '../Services/messagepublic.service';
-import { speedDialFabAnimations } from './speed-dial-fab.animations';
 import {PublicConvertServices} from '../Services/public.convert.services';
 import {DeleteMessagepublicService} from '../Services/delete.messagepublic.service';
 import {UtilService} from '../Services/util.service';
 import {UpdateService} from '../Services/update.service';
-import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-
-
-
+import { interval } from 'rxjs';
+import {PublicCommentsServices} from '../Services/public.comments.services';
+import {NotificationService} from '../Services/notification.service';
 
 
 @Component({
@@ -89,6 +86,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   color_anonymous = 'white';
   display_emoji = false;
 
+  counterSubscription: Subscription;
+  notificationCounterSubscription: Subscription;
+  secondesduboss: number;
+
+  //la dernière notification réchercher sur le serveur
+  currentnotification: any;
+  //Initialisation de la dernière notification du serveur
+  initnotification:any;
+  //dernière date
+  lastnotificationdate : any;
+  //dernière date pris sur le serveur
+  lastserveurnotification : any;
+  //informations sur les notifications
+  notification_user_name: any;
+  notification_libelle: any;
+  notification_updated_libelle: any;
+  notification_photo:any;
+  //On l'initialise à none
+  display_notification: string ='none';
 
 
   constructor(private homedesign: HomeDesignService
@@ -104,27 +120,32 @@ export class HomeComponent implements OnInit, OnDestroy {
     ,         private messagepublicservice: MessagepublicService
     ,         private publicconvertservice: PublicConvertServices
     ,         private utilservice: UtilService
+    ,         private notificationService: NotificationService
+    ,         private publiccomments: PublicCommentsServices
     ,         private formBuilder: FormBuilder) {
 
 
   }
 
   ngOnInit() {
+
+    console.log(this.constance.gestion_br_sur_le_home);
+
     this.progressbaractivationmodeanonymous = 'none';
     this.checked_active_mode_anonymous = false;
-    //on implemente la méthode de redirectionnement pour les mobiles
+    // on implemente la méthode de redirectionnement pour les mobiles
     this.constance.RedirectToDownloadPage();
-    //cette condition permet de redirectionner l'utilisateur s'il na pas encore initialiser une problematique
+    // cette condition permet de redirectionner l'utilisateur s'il na pas encore initialiser une problematique
     if (this.authService.getCookie('libelle_prob1').length === 0) {
       this.authService.etat_problematique = false;
       this.router.navigate(['problematique']);
     }
-    //au cas où le cookie de libelle_prob1 est un undefined
+    // au cas où le cookie de libelle_prob1 est un undefined
     if (String(this.authService.getCookie('libelle_prob1')) == 'undefined') {
       this.authService.etat_problematique = false;
       this.router.navigate(['problematique']);
     }
-    //this.constance.RedirectToProblematique(this.authService.etat_problematique);
+    // this.constance.RedirectToProblematique(this.authService.etat_problematique);
     if (this.authService.getSessions().etat === '1') {
       this.checked_active_mode_anonymous = true;
       this.color_anonymous = 'warn';
@@ -195,7 +216,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.publicconvertservice.dateitem = this.publicmessages[0].date.date;
             this.publicconvertservice.countitem = this.publicmessages[0].countmessagepublicitem;
             this.publicconvertservice.publicconvert_id = this.publicmessages[0].id;
-            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, this.publicconvertservice.dateitem,this.publicconvertservice.publicconvert_id,this.publicconvertservice.libelle,this.publicconvertservice.anonyme);
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, this.publicconvertservice.dateitem, this.publicconvertservice.publicconvert_id, this.publicconvertservice.libelle, this.publicconvertservice.anonyme);
           }
           return response1;
         },
@@ -223,14 +244,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
     // variation des badges de messagepublic
     this.badgehidden_public_message = false;
-    this.badgetaille_public_message = 10;
+    this.badgetaille_public_message = 0;
 
-    //on lance la synchronization des problematiques
+    // on lance la synchronization des problematiques
     this.ConnexionSynchronizationProblematique();
-    //on lance la synchronization du mode anonymous
+    // on lance la synchronization du mode anonymous
     this.ConnexionSynchronizationAnonymat();
 
-    //on test si le mode dark est activé ou pas
+    // on test si le mode dark est activé ou pas
     if (String(this.authService.getCookie('darkmode1')) == '0') {
       this.constance.primary_color = '#448AFF';
       this.constance.backgroundcolor = '#F5F5F5';
@@ -251,9 +272,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.constance.icon_dark_mode_color = 'white';*/
     }
 
-   /* var userLang = navigator.language || navigator.userLanguage;
-    alert ("The language is: " + userLang);*/
-
+    this.ConnexionLastNotification();
+    //méthode pour afficher les notifications
+    this.GetCurrentNotification();
   }
 
   getColor(etat: boolean) {
@@ -290,6 +311,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   OnclickProblematique() {
+    this.constance.gestion_br_sur_le_home = false;
     this.router.navigate(['problematique']);
   }
 
@@ -299,6 +321,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   OnProfil() {
+    this.constance.gestion_br_sur_le_home = false;
     this.router.navigate(['profil']);
   }
 
@@ -413,6 +436,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.messagepublicsubscription.unsubscribe();
+    this.counterSubscription.unsubscribe();
   }
 
   addMessagePublic() {
@@ -474,8 +498,8 @@ export class HomeComponent implements OnInit, OnDestroy {
               maleosama.name = nom_du_user;
               maleosama.status_text_content = libellemessagepublic;
               maleosama.status_photo = this.constance.messagepublicobject.status_photo;
-              //console.log(maleosama.status_photo);
-              //console.log(maleosama.etat_photo_status);
+              // console.log(maleosama.status_photo);
+              // console.log(maleosama.etat_photo_status);
               maleosama.updated = this.constance.messagepublicobject.updated;
               maleosama.user_id = this.authService.sessions.id;
               maleosama.user_photo = this.authService.getSessions().photo;
@@ -584,8 +608,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         .get(url_modeanymous)
         .subscribe(
           (response1) => {
-            //console.log(response1);
-            let reponse : any;
+            // console.log(response1);
+            let reponse: any;
             reponse = response1;
             this.info_bulle = 'Cliquez ici pour activer le mode anonymous';
             this.progressbaractivationmodeanonymous = 'none';
@@ -599,11 +623,11 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.photo_user = this.photo_user = this.constance.dns1.concat('/uploads/photo_de_profil/').concat(reponse.photo);
             this.nom = reponse.nom;
             this.prenom = reponse.prenom;
-            //this.etat = 0;
+            // this.etat = 0;
             this.authService.sessions.nom = reponse.nom;
             this.authService.sessions.prenom = reponse.prenom;
             this.authService.sessions.photo = reponse.photo;
-            //on contrôle le cas où il n'y a pas de photo
+            // on contrôle le cas où il n'y a pas de photo
             if (this.authService.getSessions().photo === '') {
               this.photo_user = this.constance.dns1.concat('/uploads/photo_de_profil/').concat('ic_profile.png');
             }
@@ -756,15 +780,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
   }
 
-  //this function help us to add our emoji in our textearea
+  // this function help us to add our emoji in our textearea
  // addEmoji(event) {
-    //console.log(event.emoji.native);
-    //let emoji_block_inline : string;
-    //const emoji_block_inline = event.emoji.native;
-    //const myspan: HTMLSpanElement;
-    //myspan.className = 'emojistyle';
-    //myspan.innerText = 'test du boss !!';
-    //event.emoji.native
+    // console.log(event.emoji.native);
+    // let emoji_block_inline : string;
+    // const emoji_block_inline = event.emoji.native;
+    // const myspan: HTMLSpanElement;
+    // myspan.className = 'emojistyle';
+    // myspan.innerText = 'test du boss !!';
+    // event.emoji.native
     /*const element = document.createElement('span');
     element.className = 'emojistyle';
     element.innerText = event.emoji.native;
@@ -776,37 +800,37 @@ export class HomeComponent implements OnInit, OnDestroy {
     /*const element: HTMLSpanElement = document.createElement('span');
     element.className = 'emojistyle';
     element.innerText = event.emoji.native;*/
-    //const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
-    //const emojitemp = '<span class="emojistyle">'.concat(event.emoji.native).concat('</span>');
-    //this.updateservice.libellemessagepublic = elementtemp.innerHTML.concat(emojitemp).concat('<span class="policy_transition"></span>');
+    // const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
+    // const emojitemp = '<span class="emojistyle">'.concat(event.emoji.native).concat('</span>');
+    // this.updateservice.libellemessagepublic = elementtemp.innerHTML.concat(emojitemp).concat('<span class="policy_transition"></span>');
     /*console.log(element);*/
     /*const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
     elementtemp.innerHTML = elementtemp;*/
-    //console.log(event);
-  //}
+    // console.log(event);
+  // }
 
-  //This function help us to display our emoji manager
-  //displayemojimanager() {
+  // This function help us to display our emoji manager
+  // displayemojimanager() {
   //  this.display_emoji = !this.display_emoji;
  // }
 
-  //onInputOurTextArea(event) {
-    //const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
-    //this.updateservice.libellemessagepublic = elementtemp.innerHTML;
+  // onInputOurTextArea(event) {
+    // const elementtemp: HTMLElement = document.getElementById('textarea') as HTMLDivElement;
+    // this.updateservice.libellemessagepublic = elementtemp.innerHTML;
    // elementtemp.focus();
-    //this.updateservice.libellemessagepublic = '<span>'.concat(this.updateservice.libellemessagepublic).concat('</span>');
-    //this.updateservice.libellemessagepublic = this.updateservice.libellemessagepublic.concat('<span>').concat(event.data).concat('</span>');
+    // this.updateservice.libellemessagepublic = '<span>'.concat(this.updateservice.libellemessagepublic).concat('</span>');
+    // this.updateservice.libellemessagepublic = this.updateservice.libellemessagepublic.concat('<span>').concat(event.data).concat('</span>');
 
     /*if (event.data != null) {
       this.updateservice.libellemessagepublic = this.updateservice.libellemessagepublic.concat('<span>').concat(event.data).concat('</span>');
     }
     console.log(event);*/
 
-    //console.log(event.data);
+    // console.log(event.data);
     /*this.updateservice.libellemessagepublictemp = this.updateservice.libellemessagepublic.concat(event.data);*/
  // }
 
-  ConnexionItemMessagePublic( id_problematique : any, id_user : any, date: any, publicconvert_id:any,libelle:any,anonyme:any) {
+  ConnexionItemMessagePublic( id_problematique: any, id_user: any, date: any, publicconvert_id: any, libelle: any, anonyme: any) {
 
     const url_lazy_loading = this.constance.dns.concat('/api/displayMessagePublicItem?id_problematique=')
                 .concat(String(id_problematique)).concat('&id_user=')
@@ -822,18 +846,18 @@ export class HomeComponent implements OnInit, OnDestroy {
           temp =   response1;
 
           const temp_countitem = (this.publicconvertservice.countitem - this.publicmessages.length);
-          if (temp_countitem >= 1){
-            //console.log(temp[0]);
+          if (temp_countitem >= 1) {
+            // console.log(temp[0]);
             this.publicconvertservice.publicconvert_id = temp[0].id;
             this.publicconvertservice.libelle = temp[0].status_text_content;
             this.publicconvertservice.anonyme = temp[0].anonymous;
 
-            //console.log(temp[0].date.date);
+            // console.log(temp[0].date.date);
 
-            //this.publicconvertservice.libelle =
+            // this.publicconvertservice.libelle =
             this.publicmessages.push(temp[0]);
           //  console.log(this.authService.getSessions().id_prob);
-            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date,this.publicconvertservice.publicconvert_id,temp[0].status_text_content,temp[0].anonymous);
+            this.ConnexionItemMessagePublic(this.authService.getSessions().id_prob, this.authService.getSessions().id, temp[0].date.date, this.publicconvertservice.publicconvert_id, temp[0].status_text_content, temp[0].anonymous);
           }
 
           if (temp_countitem == 1 || temp_countitem == 0) {
@@ -849,7 +873,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
 
-  //Ce service web permet de synchroniser le changement
+  // Ce service web permet de synchroniser le changement
   ConnexionSynchronizationProblematique() {
     const url_synchronization_problematique = this.constance.dns.concat('/api/SynchronizationProblematique?user_id=').concat(String(this.authService.getSessions().id));
 
@@ -857,15 +881,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       .get(url_synchronization_problematique)
       .subscribe(
         (response) => {
-          let reponse : any;
+          let reponse: any;
           reponse = response;
           if (reponse.problematique_libelle != this.authService.sessions.libelle_prob) {
-              //on met les sessions à jour
+              // on met les sessions à jour
               this.authService.sessions.libelle_prob = reponse.problematique_libelle;
               this.authService.sessions.id_prob = reponse.problematique_id;
-              let dtExpire = new Date();
+              const dtExpire = new Date();
               dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
-              //on met aussi les cookies à jour
+              // on met aussi les cookies à jour
               this.authService.setCookie('libelle_prob1', reponse.problematique_libelle, dtExpire, '/', null, null );
               this.authService.setCookie('id_prob1', reponse.problematique_id, dtExpire, '/', null, null );
               this.problematique_libelle = reponse.problematique_libelle;
@@ -877,21 +901,21 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
   }
 
-  //Ce service web permet d'assurer la synchronisation après le changement de mode d'anonymat
+  // Ce service web permet d'assurer la synchronisation après le changement de mode d'anonymat
   ConnexionSynchronizationAnonymat() {
     const url_synchronization_anonymat = this.constance.dns.concat('/api/DisplayUserAnonymousState?user_id=').concat(String(this.authService.getSessions().id));
     this.httpClient
       .get(url_synchronization_anonymat)
       .subscribe(
         (response) => {
-          let reponse : any;
+          let reponse: any;
           reponse = response;
           const dtExpire = new Date();
           dtExpire.setTime(dtExpire.getTime() + ( 1000 * 2 * 365 * 24 * 60 * 60));
           if (reponse.user_etat === 1) {
             this.info_bulle = 'Cliquez ici pour désactiver le mode anonymous';
             this.progressbaractivationmodeanonymous = 'none';
-            //this.openSnackBar('Votre mode anonymous est activer avec succes !', 'succes');
+            // this.openSnackBar('Votre mode anonymous est activer avec succes !', 'succes');
             this.progressbaractivationmodeanonymous = 'none';
             this.authService.sessions.etat = '1';
             // this.etat = 1;
@@ -911,7 +935,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
             this.info_bulle = 'Cliquez ici pour activer le mode anonymous';
             this.progressbaractivationmodeanonymous = 'none';
-            //this.openSnackBar('Votre mode anonymous est desactiver avec succes !', 'succes');
+            // this.openSnackBar('Votre mode anonymous est desactiver avec succes !', 'succes');
             this.progressbaractivationmodeanonymous = 'none';
             this.authService.sessions.etat = '0';
             this.authService.setCookie('etat1', this.authService.sessions.etat, dtExpire, '/', null, null );
@@ -921,11 +945,11 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.photo_user = this.photo_user = this.constance.dns1.concat('/uploads/photo_de_profil/').concat(reponse.photo);
             this.nom = reponse.nom;
             this.prenom = reponse.prenom;
-            //this.etat = 0;
+            // this.etat = 0;
             this.authService.sessions.nom = reponse.nom;
             this.authService.sessions.prenom = reponse.prenom;
             this.authService.sessions.photo = reponse.photo;
-            //on contrôle le cas où il n'y a pas de photo
+            // on contrôle le cas où il n'y a pas de photo
             if (this.authService.getSessions().photo === '') {
               this.photo_user = this.constance.dns1.concat('/uploads/photo_de_profil/').concat('ic_profile.png');
             }
@@ -942,6 +966,101 @@ export class HomeComponent implements OnInit, OnDestroy {
         (error) => {
 
         });
+  }
+
+
+
+  GetCurrentNotification() {
+    const counter = interval(1000);
+    this.counterSubscription = counter.subscribe(
+      (value: number) => {
+        this.DisplayLastNotification();
+      }
+    );
+  }
+
+  ConnexionLastNotification() {
+    const url_last_notification = this.constance.dns.concat('/api/GetDateLastNotification?id_user=').concat(this.authService.getCookie('id1'));
+    this.httpClient
+      .get(url_last_notification)
+      .subscribe(
+        (response) => {
+          this.initnotification = response;
+          this.lastnotificationdate = this.initnotification.Date.date;
+          return response;
+        },
+        (error) => {
+
+        });
+  }
+
+  DisplayLastNotification() {
+    const url_display_last_notification = this.constance.dns.concat('/api/GetLastNotification?id_recepteur=').concat(this.authService.getCookie('id1'));
+    this.httpClient
+      .get(url_display_last_notification)
+      .subscribe(
+        (response) => {
+          this.currentnotification = response;
+          this.lastserveurnotification = this.currentnotification[0].date.date;
+          if (this.lastnotificationdate != this.lastserveurnotification) {
+            this.lastnotificationdate = this.lastserveurnotification;
+            //On incremente le badge
+            this.badgetaille++;
+            //on émet le son de la notification
+            let audio = new Audio("Raw/notification.mp3");
+            audio.play();
+            this.notification_user_name = this.currentnotification[0].prenom+" "+this.currentnotification[0].nom;
+            this.notification_libelle = this.currentnotification[0].libelle;
+            this.notification_updated_libelle = this.currentnotification[0].updated;
+            this.notification_photo = this.currentnotification[0].photo;
+            //on affiche la notification
+            this.display_notification = 'block';
+            this.DisplayCounter();
+          }
+
+          return response;
+        },
+        (error) => {
+
+        });
+  }
+
+  DisplayCounter() {
+    this.secondesduboss = 5;
+    const counter = interval(1000);
+    this.notificationCounterSubscription = counter.subscribe(
+      (value: number) => {
+        this.secondesduboss --;
+        if (this.secondesduboss == 0) {
+          this.display_notification = 'none';
+          this.notificationCounterSubscription.unsubscribe();
+        }
+      });
+  }
+
+  RootOurNotification() {
+    this.publiccomments.id = this.currentnotification[0].id_messagepublic;
+    if (this.prenom == 'Utilisateur' && this.nom =='Anonyme') {
+      this.publiccomments.name = "Utilisateur Anonyme "+ this.authService.getSessions().id;
+      this.publiccomments.user_photo = 'ic_profile_anonymous.png';
+    } else {
+      this.publiccomments.name = this.currentnotification[0].name_messagepublic;
+      this.publiccomments.user_photo = this.currentnotification[0].user_photo_messagepublic;
+    }
+
+    this.publiccomments.updated = this.currentnotification[0].updated_messagepublic;
+    this.publiccomments.status_photo = this.currentnotification[0].status_photo_messagepublic;
+    this.publiccomments.status_text_content = this.currentnotification[0].status_text_content_messagepublic;
+    this.publiccomments.etat_photo_status = this.currentnotification[0].etat_photo_status_messagepublic;
+    this.publiccomments.checkmention = this.currentnotification[0].checkmention;
+    this.publiccomments.id_checkmention = this.currentnotification[0].id_checkmention;
+    this.publiccomments.indexOfConvert = 0;
+    this.publiccomments.jaime = this.currentnotification[0].countjaime;
+    this.publiccomments.jaimepas = this.currentnotification[0].countjaimepas;
+    this.publiccomments.notification_marqueur = true;
+    this.publiccomments.id_recepteur = this.currentnotification[0].expediteur_id;
+    this.notificationService.id_notification = this.currentnotification[0].notification_id;
+    this.router.navigate(['public-convert-details']);
   }
 
 }

@@ -32,11 +32,12 @@ export class ConstanceService {
   icon_dark_mode_color: string = 'white';
   background_menu_item_home_dark_mode : string = 'white';
 
+  gestion_br_sur_le_home: boolean = true;
+
   getDNS() {return this.dns;
   }
 
-  setDNS(dns: string) {this.dns = dns;
-  }
+  setDNS(dns: string) {this.dns = dns;}
 
   //on implemente la méthode qui redirectionne les utilisateurs vers la page de télechargement lorsqu'ils sont sur mobile
   RedirectToDownloadPage() {

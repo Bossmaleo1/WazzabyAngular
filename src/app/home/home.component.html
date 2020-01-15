@@ -6,6 +6,7 @@
 
 <mat-toolbar color="primary" class="block-toolbar1" *ngIf="!afficher_spinner" [ngStyle]="{'background-color':this.constance.primary_color,'color':this.constance.text_color}" >
   <div matRipple class="icon-block" (click)="OnProfil()" matTooltip="Cliquez ici pour consulter votre profil">
+    <!--img  id="icon" src="{{photo_user}}"/-->
     <img  id="icon" src="{{photo_user}}"/>
   </div>
   <button mat-button (click)="OnProfil()" matTooltip="Cliquez ici pour consulter votre profil">
@@ -45,7 +46,7 @@
     </button>
   </mat-menu>
 
-</mat-toolbar>
+</mat-toolbar> <br/><br *ngIf="this.constance.gestion_br_sur_le_home"/><br *ngIf="this.constance.gestion_br_sur_le_home"/>
 
 <mat-toolbar color="primary" class="block-toolbar2" *ngIf="!afficher_spinner" [ngStyle]="{'background-color':this.constance.primary_color,'color':this.constance.text_color}" >
   <div>
@@ -332,7 +333,7 @@
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label class="tabs-toolbar-1" >
-      <mat-icon matBadgeHidden="{{badgehidden_public_message}}" matBadge="{{badgetaille_public_message}}" matBadgeColor="warn" [ngStyle]="{color:getColor(IconEtatColorPrivateConver)}"   class="example-tab-icon" id="icon-color">chat_bubble</mat-icon>
+      <mat-icon  [ngStyle]="{color:getColor(IconEtatColorPrivateConver)}"   class="example-tab-icon" id="icon-color">chat_bubble</mat-icon>
     </ng-template>
     <div class="block-message-1">
       <mat-card class="example-card">
@@ -505,3 +506,23 @@
     </div>
   </div>
 </div>
+
+
+<!-- affichage de la notification -->
+<div class="notification-block" [ngStyle]="{'display':''+this.display_notification+''}" (click) = "RootOurNotification()">
+  <div class="notification_item">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image" [ngStyle]="{'background-image': 'url('+this.notification_photo+')'}" ></div>
+        <mat-card-subtitle>{{this.notification_user_name}} ({{this.secondesduboss}})</mat-card-subtitle>
+        <mat-card-subtitle>{{this.notification_updated_libelle}}</mat-card-subtitle>
+        <mat-card-subtitle>{{this.notification_libelle}}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div><br/>
+</div>
+
+
+<audio id="audioPlayer">
+  <source src="http://wazzaby.com/Raw/notification.mp3">
+</audio>
